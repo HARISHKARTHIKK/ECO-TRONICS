@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ECO-TRONICS 2026 | SRM IST Ramapuram</title>
+    <meta name="description"
+        content="National Level Hackathon - Eco Intelligence Meets Robotics. Join ECO-TRONICS 2026 at SRM IST Ramapuram.">
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Outfit:wght@300;400;500;600;700&family=Syncopate:wght@400;700&display=swap"
+        rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lenis/1.0.19/lenis.min.js"></script>
+</head>
+
+<body class="loading">
+    <div class="custom-cursor"></div>
+    <div class="cursor-glow"></div>
+
+    <!-- Background Elements -->
+    <div class="bg-grid"></div>
+    <div class="bg-glow"></div>
+    <div class="global-bg-robo"></div>
+    <div class="circuit-lines"></div>
+    <canvas id="neural-canvas"></canvas>
+
+    <!-- Preloader -->
+    <div class="preloader">
+        <div class="preloader-content">
+            <div class="loader-logo">ECO-TRONICS</div>
+            <div class="loader-bar-container">
+                <div class="loader-bar"></div>
+            </div>
+            <div class="loader-status">INITIALIZING ECO-AI SYSTEMS...</div>
+        </div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">
+                <span class="eco">ECO</span>-<span class="tronics">TRONICS</span>
+            </div>
+            <ul class="nav-links">
+                <li><a href="#about-srm" class="nav-link">About SRM</a></li>
+                <li><a href="#about-texus" class="nav-link">TEXUS</a></li>
+                <li><a href="#tracks" class="nav-link">Tracks</a></li>
+                <li><a href="#sponsorship" class="nav-link">Sponsors</a></li>
+                <li><a href="#contact" class="nav-link">Contact</a></li>
+            </ul>
+            <div class="nav-cta">
+                <a href="#" class="btn btn-primary small">REGISTER</a>
+            </div>
+        </div>
+    </nav>
+
+    <main>
+        <!-- Hero Section -->
+        <section id="hero" class="hero">
+            <div class="hero-bg-image"></div>
+            <div class="hero-content">
+                <div class="system-feed">
+
+                </div>
+                <!-- Title removed as it is in the background image -->
+                <br><br><br><br><br>
+                <p class="hero-tagline">“ENGINEERING THE FUTURE. SUSTAINING THE PLANET.”</p>
+                <div class="hero-date">
+                    <div class="date-badge">21ST & 22ND FEBRUARY 2026</div>
+                </div>
+                <div class="hero-btns">
+                    <a href="#" class="btn btn-glow">🚀 REGISTER NOW</a>
+                    <a href="#" class="btn btn-outline">📘 VIEW BROCHURE</a>
+                </div>
+            </div>
+            <div class="scroll-indicator">
+                <div class="mouse"></div>
+
+            </div>
+        </section>
+
+        <!-- About SRM -->
+        <section id="about-srm" class="section about-srm">
+            <div class="container">
+                <div class="ui-panel">
+                    <div class="panel-header">
+                        <span class="status-dot"></span>
+                        <span class="panel-title">SYSTEM_ORIGIN: SRM IST RAMAPURAM</span>
+                    </div>
+                    <div class="panel-body grid-2">
+                        <div class="panel-content">
+                            <h2>INSTITUTION OVERVIEW</h2>
+                            <p>SRM Institute of Science and Technology (SRMIST), Ramapuram Campus is a premier
+                                institution known for academic excellence and innovation. With a legacy of nurturing
+                                world-class engineers, the campus serves as a hub for research, development, and
+                                technological advancement.</p>
+                            <div class="stats-grid">
+                                <div class="stat-item">
+                                    <span class="stat-num">25,000+</span>
+                                    <span class="stat-label">Students</span>
+                                </div>
+                                <div class="stat-item">
+                                    <span class="stat-num">NAAC A++</span>
+                                    <span class="stat-label">Accreditation</span>
+                                </div>
+                                <div class="stat-item">
+                                    <span class="stat-num">100%</span>
+                                    <span class="stat-label">Placement Support</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="panel-visual">
+                            <div class="tech-circle">
+                                <div class="inner-circle"></div>
+                                <div class="data-segments"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- About TEXUS -->
+        <section id="about-texus" class="section about-texus">
+            <div class="container">
+                <div class="mission-briefing">
+                    <div class="briefing-header">
+                        <h2>TEXUS MISSION BRIEFING</h2>
+                    </div>
+                    <div class="briefing-content">
+                        <p>TEXUS is the flagship national-level technical symposium of the Department of ECE, SRM IST
+                            Ramapuram. It stands as a pinnacle of innovation and engineering excellence, providing a
+                            dynamic platform for students to showcase their talent across diverse domains of electronics
+                            and communication.</p>
+                        <div class="mission-objectives">
+                            <div class="objective">
+                                <span class="obj-icon">01</span>
+                                <span class="obj-text">Foster Innovation</span>
+                            </div>
+                            <div class="objective">
+                                <span class="obj-icon">02</span>
+                                <span class="obj-text">Bridging Industry Gaps</span>
+                            </div>
+                            <div class="objective">
+                                <span class="obj-icon">03</span>
+                                <span class="obj-text">Technical Leadership</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- About Hackathon -->
+        <section id="hackathon" class="section hackathon">
+            <div class="container text-center">
+                <div class="modern-header mb-large">
+                    <span class="subtitle">PROJECT_V01</span>
+                    <h2 class="title-glow">MISSION: SUSTAINABLE INNOVATION</h2>
+                    <p>National Level Hackathon Competition</p>
+                </div>
+                <div class="mission-details">
+                    <p class="large-text">ECO-TRONICS is not just a competition; it's a movement where "Eco Intelligence
+                        Meets Robotics." We challenge the brightest minds to build solutions that harmonize high-end
+                        technology with ecological preservation.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Tracks -->
+        <section id="tracks" class="section tracks">
+            <div class="container">
+                <h2 class="section-title">HACKATHON MODULES (TRACKS)</h2>
+                <div class="tracks-grid">
+                    <div class="track-card">
+                        <div class="card-glow"></div>
+                        <div class="track-icon">🌱</div>
+                        <h3>Eco Tech</h3>
+                        <p>Green sustainability solutions & renewable energy systems.</p>
+                    </div>
+                    <div class="track-card">
+                        <div class="card-glow"></div>
+                        <div class="track-icon">❤️</div>
+                        <h3>Health Tech</h3>
+                        <p>Next-gen medical devices and AI health monitoring.</p>
+                    </div>
+                    <div class="track-card">
+                        <div class="card-glow"></div>
+                        <div class="track-icon">👟</div>
+                        <h3>Athle Tech</h3>
+                        <p>Performance tracking and sustainable high-tech sportswear.</p>
+                    </div>
+                    <div class="track-card">
+                        <div class="card-glow"></div>
+                        <div class="track-icon">⚙️</div>
+                        <h3>Dev Velocity</h3>
+                        <p>Accelerating development with AI-driven software architectures.</p>
+                    </div>
+                    <div class="track-card">
+                        <div class="card-glow"></div>
+                        <div class="track-icon">🚀</div>
+                        <h3>Voyage Tech</h3>
+                        <p>Aerospace innovations and futuristic mobility solutions.</p>
+                    </div>
+                    <div class="track-card">
+                        <div class="card-glow"></div>
+                        <div class="track-icon">💰</div>
+                        <h3>Fin Trust</h3>
+                        <p>Secure blockchain and eco-conscious financial systems.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- What We Offer -->
+        <section id="offers" class="section offers">
+            <div class="container">
+                <h2 class="section-title">SPONSOR BENEFITS SYSTEM</h2>
+                <div class="benefits-grid">
+                    <div class="benefit-panel">
+                        <div class="panel-num">01</div>
+                        <h3>Brand Visibility</h3>
+                        <p>Extensive reach across domestic and national audiences.</p>
+                    </div>
+                    <div class="benefit-panel">
+                        <div class="panel-num">02</div>
+                        <h3>Product Showcase</h3>
+                        <p>Direct platform to demonstrate innovative products.</p>
+                    </div>
+                    <div class="benefit-panel">
+                        <div class="panel-num">03</div>
+                        <h3>Industry Challenges</h3>
+                        <p>Collaborate on real-world problem statements.</p>
+                    </div>
+                    <div class="benefit-panel">
+                        <div class="panel-num">04</div>
+                        <h3>Expert Interaction</h3>
+                        <p>Engage with top-tier talent and industry mentors.</p>
+                    </div>
+                    <div class="benefit-panel">
+                        <div class="panel-num">05</div>
+                        <h3>Strategic Networking</h3>
+                        <p>Build lasting connections with institutional leaders.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- What We Expect -->
+        <section id="expectations" class="section expectations">
+            <div class="container">
+                <div class="ui-panel glass">
+                    <div class="panel-header">
+                        <span class="panel-title">PARTNERSHIP_REQUISITIONS</span>
+                    </div>
+                    <div class="panel-body">
+                        <div class="exp-grid">
+                            <div class="exp-item">
+                                <div class="exp-dot"></div>
+                                <span>Cash Sponsorship</span>
+                            </div>
+                            <div class="exp-item">
+                                <div class="exp-dot"></div>
+                                <span>Goodies & Merchandise</span>
+                            </div>
+                            <div class="exp-item">
+                                <div class="exp-dot"></div>
+                                <span>Event Essentials (Food, IDs, Certificates)</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Sponsor Categories -->
+        <section id="sponsorship" class="section categories">
+            <div class="container">
+                <h2 class="section-title">SPONSORSHIP TIERS</h2>
+                <div class="tiers-grid">
+                    <div class="tier-badge title">
+                        <div class="badge-icon">🏆</div>
+                        <div class="tier-name">TITLE SPONSOR</div>
+                        <div class="tier-amount">₹5,00,000</div>
+                    </div>
+                    <div class="tier-badge cotitle">
+                        <div class="badge-icon">⭐</div>
+                        <div class="tier-name">CO-TITLE</div>
+                        <div class="tier-amount">₹4,00,000</div>
+                    </div>
+                    <div class="tier-badge diamond">
+                        <div class="badge-icon">💎</div>
+                        <div class="tier-name">DIAMOND</div>
+                        <div class="tier-amount">₹3,00,000</div>
+                    </div>
+                    <div class="tier-badge platinum">
+                        <div class="badge-icon">💿</div>
+                        <div class="tier-name">PLATINUM</div>
+                        <div class="tier-amount">₹2,00,000</div>
+                    </div>
+                    <div class="tier-badge gold">
+                        <div class="badge-icon">🥇</div>
+                        <div class="tier-name">GOLD</div>
+                        <div class="tier-amount">₹1,00,000</div>
+                    </div>
+                    <div class="tier-badge silver">
+                        <div class="badge-icon">🥈</div>
+                        <div class="tier-name">SILVER</div>
+                        <div class="tier-amount">₹50,000</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Previous Ventures -->
+        <section id="gallery" class="section gallery">
+            <div class="container">
+                <h2 class="section-title">PREVIOUS VENTURES</h2>
+                <div class="gallery-grid">
+                    <div class="gallery-item">
+                        <img src="gallery-1.png" alt="Hackathon Venture 1">
+                        <div class="gallery-overlay">SEC_INTEL_V01</div>
+                    </div>
+                    <div class="gallery-item">
+                        <img src="gallery-2.png" alt="Hackathon Venture 2">
+                        <div class="gallery-overlay">ROBO_CORE_V02</div>
+                    </div>
+                    <div class="gallery-item">
+                        <div class="img-placeholder">DATA_LOG_V03</div>
+                    </div>
+                    <div class="gallery-item">
+                        <div class="img-placeholder">ECO_SYS_V04</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact Section -->
+        <section id="contact" class="section contact">
+            <div class="container">
+                <div class="contact-panel">
+                    <div class="contact-header">
+                        <h2>SECURE COMM-LINK</h2>
+                        <div class="line"></div>
+                    </div>
+                    <div class="contact-body">
+                        <div class="contact-info">
+                            <div class="info-group">
+                                <label>FACULTY COORDINATOR</label>
+                                <p>Dr. G. Ramya</p>
+                                <a href="tel:+919840766774">+91 98407 66774</a>
+                            </div>
+                            <div class="info-group">
+                                <label>STUDENT COORDINATOR</label>
+                                <p>Hitesh Ambhareesh A B</p>
+                                <a href="tel:+917806841556">+91 78068 41556</a>
+                            </div>
+                            <div class="info-group">
+                                <label>SYSTEM EMAIL</label>
+                                <a href="mailto:hod.ece.rmp@srmist.edu.in">hod.ece.rmp@srmist.edu.in</a>
+                            </div>
+                        </div>
+                        <div class="contact-socials">
+                            <a href="#" class="social-btn">INSTAGRAM</a>
+                            <a href="#" class="social-btn">LINKEDIN</a>
+                            <a href="#" class="social-btn">TWITTER</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-console">
+                <div class="console-left">
+                    <span class="system-tag">ECO-OS V2026.4</span>
+                    <span class="copyright">© 2026 ECE SRM RAMAPURAM. ALL RIGHTS RESERVED.</span>
+                </div>
+                <div class="console-right">
+                    <span class="location">LOC: CHENNAI, IN</span>
+                    <span class="status">SYSTEM ONLINE</span>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="main.js"></script>
+</body>
+
+</html>

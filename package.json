@@ -1,0 +1,13 @@
+{
+  "name": "eco-tronics-2026",
+  "version": "1.0.0",
+  "description": "ECO-TRONICS 2026 Hackathon Website",
+  "main": "index.html",
+  "scripts": {
+    "dev": "npx -y serve ./"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "serve": "^14.2.4"
+  }
+}
