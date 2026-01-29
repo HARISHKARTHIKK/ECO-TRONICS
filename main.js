@@ -43,29 +43,60 @@ if (typeof gsap !== 'undefined') {
         });
     }
 
-    // Preloader Logic
+    // Preloader and Video Intro Logic
+    const videoIntro = document.querySelector('#video-intro');
+    const introVideo = document.querySelector('#intro-video');
+    const enterBtn = document.querySelector('#enter-btn');
+    const skipIntro = document.querySelector('.skip-intro');
+
+    const exitIntro = () => {
+        const tl = gsap.timeline();
+        tl.to(videoIntro, { opacity: 0, duration: 1, ease: 'power4.inOut' })
+            .call(() => {
+                videoIntro.style.display = 'none';
+                document.body.classList.remove('loading');
+                // Trigger hero animations
+                gsap.from('.system-feed', { opacity: 0, y: -20, duration: 0.8 });
+                gsap.from('.hero-tagline', { opacity: 0, y: 30, duration: 1, ease: 'power4.out' }, '-=0.4');
+                gsap.from('.hero-btns', { opacity: 0, y: 20, duration: 0.8 }, '-=0.6');
+                gsap.from('.hero-bg-image', { opacity: 0, scale: 1.1, duration: 2, ease: 'power2.out' }, '-=1.2');
+                gsap.to('.hero-content', { y: -20, duration: 3, repeat: -1, yoyo: true, ease: 'sine.inOut' });
+            });
+        if (introVideo) introVideo.pause();
+    };
+
     const startLoader = () => {
         if (!document.body.classList.contains('loading')) return;
 
         const tl = gsap.timeline();
         tl.to('.loader-bar', { width: '100%', duration: 1, ease: 'power2.inOut' })
-            .to('.preloader', { yPercent: -100, duration: 0.8, ease: 'power4.inOut' })
-            .from('.system-feed', { opacity: 0, y: -20, duration: 0.8 }, '-=0.2')
-            .from('.hero-tagline', { opacity: 0, y: 30, duration: 1, ease: 'power4.out' }, '-=0.5')
-            .from('.hero-btns', { opacity: 0, y: 20, duration: 0.8 }, '-=0.5')
-            .from('.hero-bg-image', { opacity: 0, scale: 1.1, duration: 2, ease: 'power2.out' }, '-=1.5')
+            .to('.preloader', { opacity: 0, duration: 0.8, ease: 'power4.inOut' })
             .call(() => {
-                document.body.classList.remove('loading');
-                // Trigger floating animation after load
-                gsap.to('.hero-content', { y: -20, duration: 3, repeat: -1, yoyo: true, ease: 'sine.inOut' });
-                // Background remains constant as requested
+                document.querySelector('.preloader').style.display = 'none';
+                if (videoIntro) {
+                    videoIntro.classList.add('active');
+                    gsap.to(videoIntro, { opacity: 1, duration: 1 });
+                    if (introVideo) {
+                        introVideo.play().catch(e => console.log("Autoplay blocked or video error:", e));
+                    }
+                    // Animate intro content
+                    gsap.to('.intro-status', { opacity: 1, duration: 1, delay: 0.5 });
+                    gsap.to('.intro-btn', { opacity: 1, y: 0, duration: 1, delay: 1, ease: 'power4.out' });
+                } else {
+                    // Fallback if video intro missing
+                    document.body.classList.remove('loading');
+                }
             });
     };
+
+    if (enterBtn) enterBtn.addEventListener('click', exitIntro);
+    if (skipIntro) skipIntro.addEventListener('click', exitIntro);
 
     window.addEventListener('load', startLoader);
 
     // Safety Timeout: Force hide preloader if load event hangs
-    setTimeout(startLoader, 4000);
+    setTimeout(startLoader, 6000);
+
 
     // Navbar Scroll Effect
     window.addEventListener('scroll', () => {
