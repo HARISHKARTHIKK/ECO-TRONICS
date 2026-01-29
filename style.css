@@ -424,10 +424,16 @@ body.loading {
 .nav-container {
     max-width: 1400px;
     margin: 0 auto;
-    padding: 0 5%;
     display: flex;
     justify-content: space-between;
     align-items: center;
+    padding: 0 4rem;
+}
+
+@media (max-width: 768px) {
+    .nav-container {
+        padding: 0 1.5rem;
+    }
 }
 
 .logo {
@@ -497,9 +503,10 @@ body.loading {
 }
 
 .btn-glow {
-    background: var(--neon-green);
+    background: linear-gradient(135deg, var(--neon-green), #00cc6a);
     color: var(--bg-black);
-    box-shadow: var(--neon-glow);
+    box-shadow: 0 10px 20px rgba(0, 255, 136, 0.2), var(--neon-glow);
+    font-weight: 700;
 }
 
 .btn-glow:hover {
@@ -526,6 +533,7 @@ body.loading {
 /* Hero Section */
 .hero {
     height: 100vh;
+    width: 100%;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -1065,23 +1073,44 @@ body.loading {
         display: none;
     }
 
-    .hero-btns {
-        flex-direction: column;
-        width: 100%;
-        max-width: 300px;
-        margin: 0 auto;
-    }
-
     .hero-content {
-        margin-top: 25vh;
+        margin-top: 15vh;
+        width: 100%;
+        max-width: 100%;
+        padding: 0 1.5rem;
+        background: none;
+        /* Remove gradient that might cause visible edges on small screens */
     }
 
     .hero-tagline {
-        font-size: 1.2rem;
+        font-size: 1.1rem;
+        margin-bottom: 2rem;
+    }
+
+    .date-badge {
+        font-size: 0.85rem;
+        padding: 0.8rem 1rem;
+        letter-spacing: 1px;
+    }
+
+    .hero-btns {
+        flex-direction: column;
+        width: 100%;
+        max-width: 280px;
+        margin: 2rem auto 0;
+        gap: 15px;
+    }
+
+    .hero-bg-image {
+        background-position: 45% center;
+        /* Precisely center the robot subject on mobile screens */
+        height: 100vh;
+        width: 100vw;
     }
 
     .section {
-        padding: 4rem 0;
+        padding: 4rem 1.5rem;
+        /* Add side padding to all sections on mobile */
     }
 
     .prizes-wrap {
