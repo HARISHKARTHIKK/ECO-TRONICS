@@ -89,6 +89,24 @@ if (typeof gsap !== 'undefined') {
             });
     };
 
+    const burger = document.querySelector('.burger-menu');
+    const navLinks = document.querySelector('.nav-links');
+    const links = document.querySelectorAll('.nav-link');
+
+    if (burger && navLinks) {
+        burger.addEventListener('click', () => {
+            burger.classList.toggle('active');
+            navLinks.classList.toggle('active');
+        });
+
+        links.forEach(link => {
+            link.addEventListener('click', () => {
+                burger.classList.remove('active');
+                navLinks.classList.remove('active');
+            });
+        });
+    }
+
     if (enterBtn) enterBtn.addEventListener('click', exitIntro);
     if (skipIntro) skipIntro.addEventListener('click', exitIntro);
 
