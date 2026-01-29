@@ -287,6 +287,42 @@ if (typeof gsap !== 'undefined') {
 
     init();
     animate();
+
+    // FAQ Accordion Interaction
+    const faqBoxes = document.querySelectorAll('.faq-box');
+    faqBoxes.forEach(box => {
+        const trigger = box.querySelector('.faq-trigger');
+        if (trigger) {
+            trigger.addEventListener('click', () => {
+                const isActive = box.classList.contains('active');
+                faqBoxes.forEach(b => b.classList.remove('active'));
+                if (!isActive) box.classList.add('active');
+            });
+        }
+    });
+
+    // Reveal Animations for New Sections
+    const revealOnScroll = () => {
+        const revealables = document.querySelectorAll('.timeline-item, .flow-box, .prize-card, .event-category-card, .poster-card');
+        revealables.forEach(el => {
+            const rect = el.getBoundingClientRect();
+            if (rect.top < window.innerHeight * 0.9) {
+                el.style.opacity = '1';
+                el.style.transform = 'translateY(0)';
+            }
+        });
+    };
+
+    // Initial state for revealables
+    document.querySelectorAll('.timeline-item, .flow-box, .prize-card, .event-category-card, .poster-card').forEach(el => {
+        el.style.opacity = '0';
+        el.style.transform = 'translateY(30px)';
+        el.style.transition = 'all 0.6s cubic-bezier(0.16, 1, 0.3, 1)';
+    });
+
+    window.addEventListener('scroll', revealOnScroll);
+    revealOnScroll();
+
 } else {
     // Fallback if GSAP is blocked
     window.addEventListener('load', () => {
