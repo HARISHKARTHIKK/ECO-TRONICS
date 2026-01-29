@@ -27,13 +27,22 @@ html {
     scrollbar-color: var(--neon-green) var(--bg-black);
 }
 
+html,
+body {
+    width: 100%;
+    max-width: 100vw;
+    overflow-x: hidden;
+    position: relative;
+}
+
 body {
     background-color: var(--bg-black);
     color: var(--text-white);
     font-family: var(--font-body);
-    overflow-x: hidden;
     line-height: 1.6;
     font-size: 16px;
+    margin: 0;
+    padding: 0;
 }
 
 body.loading {
@@ -539,6 +548,8 @@ body.loading {
     justify-content: center;
     position: relative;
     overflow: hidden;
+    margin: 0;
+    padding: 0;
 }
 
 .hero-bg-image {
@@ -546,16 +557,12 @@ body.loading {
     top: 0;
     left: 0;
     width: 100%;
-    height: 120%;
-    /* Increased height for parallax */
-    background-image: linear-gradient(to bottom, rgba(11, 15, 20, 0.5), rgba(11, 15, 20, 0.2), rgba(11, 15, 20, 0.6)), url('Robo.png');
+    height: 100%;
+    background-image: linear-gradient(to bottom, rgba(11, 15, 20, 0.4), rgba(11, 15, 20, 0.1), rgba(11, 15, 20, 0.5)), url('Robo.png');
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
-    opacity: 1;
     z-index: -1;
-    pointer-events: none;
-    will-change: transform;
 }
 
 .hero-content {
@@ -1073,44 +1080,59 @@ body.loading {
         display: none;
     }
 
-    .hero-content {
-        margin-top: 15vh;
+    .hero {
         width: 100%;
-        max-width: 100%;
+        padding: 0;
+        margin: 0;
+    }
+
+    .hero-content {
+        margin-top: 10vh;
+        width: 100% !important;
+        max-width: 100% !important;
         padding: 0 1.5rem;
         background: none;
-        /* Remove gradient that might cause visible edges on small screens */
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
     }
 
     .hero-tagline {
         font-size: 1.1rem;
         margin-bottom: 2rem;
-    }
-
-    .date-badge {
-        font-size: 0.85rem;
-        padding: 0.8rem 1rem;
-        letter-spacing: 1px;
+        width: 100%;
+        text-align: center;
     }
 
     .hero-btns {
         flex-direction: column;
         width: 100%;
-        max-width: 280px;
-        margin: 2rem auto 0;
+        max-width: 260px;
+        margin: 1.5rem auto 0;
         gap: 15px;
     }
 
     .hero-bg-image {
-        background-position: 45% center;
-        /* Precisely center the robot subject on mobile screens */
-        height: 100vh;
-        width: 100vw;
+        background-position: center;
+        /* Stick to true center for the main subject */
+        width: 100% !important;
+        height: 100% !important;
     }
 
     .section {
+        width: 100%;
         padding: 4rem 1.5rem;
-        /* Add side padding to all sections on mobile */
+    }
+
+    .container {
+        padding: 0;
+        width: 100%;
+    }
+
+    .ui-panel {
+        width: 100%;
+        padding: 2rem 1.5rem;
     }
 
     .prizes-wrap {
