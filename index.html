@@ -39,7 +39,7 @@
             <div class="loader-bar-container">
                 <div class="loader-bar"></div>
             </div>
-            <div class="loader-status">INITIALIZING ECO-AI SYSTEMS...</div>
+            <div class="loader-status">INITIALIZING SYSTEMS...</div>
         </div>
     </div>
 
@@ -53,10 +53,10 @@
         <div class="video-content">
             <div class="intro-title">
                 <span class="glitch" data-text="ECO-TRONICS">ECO-TRONICS</span>
-                <span class="sub-title">2026</span>
+                <span class="sub-title">2026</span><br>
             </div>
-            <div class="intro-status">CONNECTION ESTABLISHED. SYSTEM READY.</div>
-            <button id="enter-btn" class="btn btn-glow intro-btn">ENTER EXPERIENCE</button>
+            <h2>IGNITION COMPLETE → ASCEND 🚀<h2><br><br>
+                    <button id="enter-btn" class="btn btn-glow intro-btn">ACTIVATE 🕹️</button>
         </div>
     </div>
 
@@ -64,25 +64,32 @@
     <!-- Navigation -->
     <nav class="navbar">
         <div class="nav-container">
-            <div class="logo">
-                <span class="eco">ECO</span>-<span class="tronics">TRONICS</span>
+            <div class="nav-left-logos">
+                <img src="srm-logo.png" alt="SRM" class="nav-srm-logo">
             </div>
+
+            <div class="nav-center-logos">
+                <img src="Texus-logo.png" alt="Texus" class="nav-texus-logo">
+            </div>
+
+            <div class="nav-right-block burger-menu">
+                <div class="eco-brand">
+                    <span class="eco">ECO</span>-<span class="tronics">TRONICS</span>
+                </div>
+                <div class="burger-icon">
+                    <span></span>
+                    <span></span>
+                </div>
+            </div>
+
             <ul class="nav-links">
-                <li><a href="#about-srm" class="nav-link">About SRM</a></li>
-                <li><a href="#events" class="nav-link">Events</a></li>
-                <li><a href="#hackathon-portal" class="nav-link">Hackathon</a></li>
-                <li><a href="#timeline" class="nav-link">Schedule</a></li>
-                <li><a href="#team" class="nav-link">Team</a></li>
-                <li><a href="#contact" class="nav-link">Contact</a></li>
+                <li><a href="#about-srm" class="nav-link" data-text="ABOUT SRM">About SRM</a></li>
+                <li><a href="#events" class="nav-link" data-text="EVENTS">Events</a></li>
+                <li><a href="#hackathon-portal" class="nav-link" data-text="HACKATHON">Hackathon</a></li>
+                <li><a href="#timeline" class="nav-link" data-text="SCHEDULE">Schedule</a></li>
+                <li><a href="#team" class="nav-link" data-text="TEAM">Team</a></li>
+                <li><a href="#contact" class="nav-link" data-text="CONTACT">Contact</a></li>
             </ul>
-            <div class="burger-menu">
-                <span></span>
-                <span></span>
-                <span></span>
-            </div>
-            <div class="nav-cta">
-                <a href="#" class="btn btn-primary small">REGISTER</a>
-            </div>
         </div>
     </nav>
 
@@ -96,13 +103,13 @@
                 </div>
                 <!-- Title removed as it is in the background image -->
                 <br><br><br><br><br>
-                <p class="hero-tagline">“WHERE INNOVATION MEETS COMPETITION.”</p>
+
                 <div class="hero-date">
-                    <div class="date-badge">SYMPOSIUM & HACKATHON | 21ST & 22ND FEB 2026</div>
+                    <div class="date-badge">24HR HACKATHON | 21ST & 22ND FEB 2026</div>
                 </div>
                 <div class="hero-btns">
-                    <a href="#events-category" class="btn btn-glow">⚡ EXPLORE EVENTS</a>
-                    <a href="#hackathon-portal" class="btn btn-outline">🤖 JOIN HACKATHON</a>
+                    <a href="#events-category" class="btn btn-glow">🤖 JOIN HACKATHON</a>
+                    <a href="#hackathon-portal" class="btn btn-outline">⚡ EXPLORE EVENTS</a>
                 </div>
             </div>
             <div class="scroll-indicator">
@@ -116,23 +123,29 @@
             <div class="container">
                 <div class="dual-grid">
 
-                    <div class="hub-card hackathon-hub">
+                    <div class="hub-card hackathon-hub"
+                        data-full-desc="EcoTronics is an intensive 24-hour offline hackathon that brings together visionary innovators to conceive and develop technology-driven solutions aligned with the United Nations Sustainable Development Goals (SDGs), enabling participants to apply expertise in electronics, embedded systems, IoT, software engineering, and artificial intelligence to address critical real-world challenges across healthcare, education, renewable energy, smart cities, and climate action; through continuous innovation, expert mentorship, and live evaluations, the event fosters creativity, interdisciplinary collaboration, and purpose-driven problem solving, driving impactful technological advancements toward a sustainable and inclusive future.">
                         <div class="hub-overlay"></div>
                         <div class="hub-content">
                             <span class="hub-label">FLAGSHIP EVENT</span>
                             <h2>THE HACKATHON</h2>
-                            <p>24 hours of intense building. Eco-intelligence meets robotics. Solve real-world climate
-                                challenges with cutting-edge tech.</p>
-                            <a href="#tracks" class="btn btn-glow small">EXPLORE TRACKS</a>
+                            <p>EcoTronics is a 24-hour offline hackathon where innovators develop SDG-aligned solutions
+                                using electronics, IoT, software, and AI to address real-world challenges, fostering
+                                collaboration, innovation, and sustainable impact.
+                            <p>
+                                <a href="#tracks" class="btn btn-glow small">EXPLORE TRACKS</a>
                         </div>
                     </div>
-                    <div class="hub-card events-hub">
+                    <div class="hub-card events-hub"
+                        data-full-desc="Insight Arena is a distinguished technical forum of the Department of Electronics and Communication Engineering, envisioned to cultivate intellectual rigor, technological foresight, and engineering excellence through a unified scholarly platform. It serves as a dynamic nexus where students, researchers, and emerging innovators engage with contemporary advancements in electronics, communication systems, signal processing, embedded architectures, and intelligent technologies through meticulously curated technical interactions. By integrating research presentations, expert deliberations, immersive workshops, and thought-provoking discussions, Insight Arena bridges theoretical foundations with real-world applications, fostering analytical depth, inventive thinking, and solution-oriented engineering—a space where knowledge converges, ideas mature, and innovation takes form.">
                         <div class="hub-overlay"></div>
                         <div class="hub-content">
-                            <span class="hub-label">TECH SYMPOSIUM</span>
-                            <h2>THE SYMPOSIUM</h2>
-                            <p>A battleground for engineering excellence. From circuit debugging to paper presentations,
-                                witness the peak of technical prowess.</p>
+                            <span class="hub-label">EVENTS</span>
+                            <h2>THE INSIGHT ARENA</h2>
+                            <p>Insight Arena is a premier technical forum of the Department of Electronics and
+                                Communication Engineering, fostering excellence and innovation across electronics,
+                                communication systems, signal processing, and intelligent technologies—where insight
+                                evolves into impact.</p>
                             <a href="#events" class="btn btn-outline small">VIEW ALL EVENTS</a>
                         </div>
                     </div>
@@ -172,9 +185,80 @@
                         </div>
                         <div class="panel-visual">
                             <div class="tech-circle">
-                                <div class="inner-circle"></div>
+                                <div class="circle-ring ring-1"></div>
+                                <div class="circle-ring ring-2"></div>
+                                <div class="circle-ring ring-3"></div>
+                                <div class="radar-sweep"></div>
+                                <div class="hologram-core">
+                                    <div class="core-content">
+                                        <div class="core-grid"></div>
+                                        <div class="network-hub">
+                                            <div class="hub-center"></div>
+                                            <div class="hub-orbit">
+                                                <div class="node"></div>
+                                                <div class="node"></div>
+                                                <div class="node"></div>
+                                                <div class="node"></div>
+                                            </div>
+                                            <div class="hub-links">
+                                                <div class="link"></div>
+                                                <div class="link"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                                 <div class="data-segments"></div>
                             </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="hackathon-portal" class="section hackathon-portal">
+            <div class="container">
+                <div class="modern-header mb-large text-center">
+                    <h2 class="title-glow">THE HACKATHON</h2>
+                </div>
+                <!-- Tracks -->
+                <div id="tracks" class="tracks-container">
+                    <h3 class="sub-title text-center mb-medium">MISSION TRACKS</h3>
+                    <div class="tracks-grid">
+                        <div class="track-card">
+                            <div class="card-glow"></div>
+                            <div class="track-icon">�</div>
+                            <h3>Eco Tech</h3>
+                            <p>Green sustainability solutions & renewable energy systems.</p>
+                        </div>
+                        <div class="track-card">
+                            <div class="card-glow"></div>
+                            <div class="track-icon">❤️</div>
+                            <h3>Health Tech</h3>
+                            <p>Next-gen medical devices and AI health monitoring.</p>
+                        </div>
+                        <div class="track-card">
+                            <div class="card-glow"></div>
+                            <div class="track-icon">�</div>
+                            <h3>EdTech</h3>
+                            <p>Technology driven Industry ready Learning.</p>
+                        </div>
+                        <div class="track-card">
+                            <div class="card-glow"></div>
+                            <div class="track-icon">🔋</div>
+                            <h3>Clean Energy</h3>
+                            <p>Accelerating development with Renewable Tech.</p>
+                        </div>
+                        <div class="track-card">
+                            <div class="card-glow"></div>
+                            <div class="track-icon">🏢</div>
+                            <h3>Urban Intelligence</h3>
+                            <p>Innovating for smarter, greener urban living.</p>
+                        </div>
+                        <div class="track-card">
+                            <div class="card-glow"></div>
+                            <div class="track-icon">🌦️</div>
+                            <h3>Climate Action</h3>
+                            <p>Innovating for a low-carbon future.</p>
                         </div>
                     </div>
                 </div>
@@ -221,10 +305,10 @@
                             </div>
                             <div class="flux-card">
                                 <div class="flux-meta">
-                                    <span class="flux-time">FEB 21 - 09:00</span>
+                                    <span class="flux-time">FEB 21</span>
                                     <span class="flux-status">WARMUP</span>
                                 </div>
-                                <h3>SYMPOSIUM KICKSTART</h3>
+                                <h3>HACKATHON KICKSTART</h3>
                                 <p>Circuit battles and research defenses begin. The engineering arena opens.</p>
                                 <div class="card-action">
                                     <span class="action-tag">SYNCING DATA</span>
@@ -239,10 +323,10 @@
                             </div>
                             <div class="flux-card">
                                 <div class="flux-meta">
-                                    <span class="flux-time">FEB 21 - 11:00</span>
+                                    <span class="flux-time">FEB 21</span>
                                     <span class="flux-status">CRITICAL</span>
                                 </div>
-                                <h3>HACK-ARRAY ACTIVATED</h3>
+                                <h3>HACK SYNCHRONIZED</h3>
                                 <p>The 24-hour innovation sprint begins. Code, Solder, Build. No turning back.</p>
                                 <div class="card-action">
                                     <span class="action-tag">FULL POWER</span>
@@ -257,10 +341,10 @@
                             </div>
                             <div class="flux-card">
                                 <div class="flux-meta">
-                                    <span class="flux-time">FEB 22 - 11:00</span>
+                                    <span class="flux-time">FEB 22</span>
                                     <span class="flux-status">PROCESSING</span>
                                 </div>
-                                <h3>NEURAL EVALUATION</h3>
+                                <h3>COGNITIVE EVALUATION</h3>
                                 <p>The Final Pitch. Present your eco-solutions to the Master Jury.</p>
                                 <div class="card-action">
                                     <span class="action-tag">ANALYZING</span>
@@ -275,10 +359,10 @@
                             </div>
                             <div class="flux-card">
                                 <div class="flux-meta">
-                                    <span class="flux-time">FEB 22 - 16:00</span>
+                                    <span class="flux-time">FEB 22</span>
                                     <span class="flux-status">COMPLETE</span>
                                 </div>
-                                <h3>COMMAND FINALE</h3>
+                                <h3>FINALE</h3>
                                 <p>Mission debrief and victory sequence. Rewards distributed to the elite.</p>
                                 <div class="card-action">
                                     <span class="action-tag">MISSION END</span>
@@ -303,18 +387,21 @@
                         </div>
                         <div class="events-grid-nav">
                             <div class="event-category-card" data-poster="paper_presentation_poster.png">
+                                <span class="event-date">FEB 27</span>
                                 <i>📝</i>
                                 <h3>PAPER PRESENTATION</h3>
                                 <p>Unveil your research and innovations.</p>
                                 <span class="view-poster">VIEW POSTER</span>
                             </div>
                             <div class="event-category-card" data-poster="circuit_debugging_poster.png">
+                                <span class="event-date">FEB 27</span>
                                 <i>🔌</i>
                                 <h3>CIRCUIT DEBUGGING</h3>
                                 <p>Trace the fault, fix the flow.</p>
                                 <span class="view-poster">VIEW POSTER</span>
                             </div>
                             <div class="event-category-card" data-poster="coding_challenge_poster.png">
+                                <span class="event-date">FEB 27</span>
                                 <i>💻</i>
                                 <h3>CODING CHALLENGE</h3>
                                 <p>Algorithmic warfare at its finest.</p>
@@ -331,18 +418,21 @@
                         </div>
                         <div class="events-grid-nav">
                             <div class="event-category-card" data-poster="ipl_auction_poster.png">
+                                <span class="event-date">FEB 28</span>
                                 <i>🏏</i>
                                 <h3>IPL AUCTION</h3>
                                 <p>Build your dream team, manage the budget.</p>
                                 <span class="view-poster">VIEW POSTER</span>
                             </div>
                             <div class="event-category-card" data-poster="cinephile_poster.png">
+                                <span class="event-date">FEB 27</span>
                                 <i>🎬</i>
                                 <h3>CINEPHILE</h3>
                                 <p>The ultimate test for movie buffs.</p>
                                 <span class="view-poster">VIEW POSTER</span>
                             </div>
                             <div class="event-category-card" data-poster="squid_game_poster.png">
+                                <span class="event-date">FEB 27</span>
                                 <i>🦑</i>
                                 <h3>SQUID GAME</h3>
                                 <p>Strategy and survival in the tech arena.</p>
@@ -359,8 +449,9 @@
                         </div>
                         <div class="events-grid-nav">
                             <div class="event-category-card full-width" data-poster="mulsoft_workshop_poster.png">
+                                <span class="event-date">FEB 25</span>
                                 <i>🛠️</i>
-                                <h3>MULSOFT WORKSHOP</h3>
+                                <h3>WORKSHOP</h3>
                                 <p>Master API integration with industry experts from Mulsoft.</p>
                                 <span class="view-poster">VIEW POSTER</span>
                             </div>
@@ -371,55 +462,7 @@
         </section>
 
         <!-- Hackathon Portal -->
-        <section id="hackathon-portal" class="section hackathon-portal">
-            <div class="container">
-                <div class="modern-header mb-large text-center">
-                    <h2 class="title-glow">THE HACKATHON</h2>
-                </div>
-                <!-- Tracks -->
-                <div id="tracks" class="tracks-container">
-                    <h3 class="sub-title text-center mb-medium">MISSION TRACKS</h3>
-                    <div class="tracks-grid">
-                        <div class="track-card">
-                            <div class="card-glow"></div>
-                            <div class="track-icon">�</div>
-                            <h3>Eco Tech</h3>
-                            <p>Green sustainability solutions & renewable energy systems.</p>
-                        </div>
-                        <div class="track-card">
-                            <div class="card-glow"></div>
-                            <div class="track-icon">❤️</div>
-                            <h3>Health Tech</h3>
-                            <p>Next-gen medical devices and AI health monitoring.</p>
-                        </div>
-                        <div class="track-card">
-                            <div class="card-glow"></div>
-                            <div class="track-icon">�</div>
-                            <h3>EdTech</h3>
-                            <p>Technology driven Industry ready Learning.</p>
-                        </div>
-                        <div class="track-card">
-                            <div class="card-glow"></div>
-                            <div class="track-icon">🔋</div>
-                            <h3>Clean Energy</h3>
-                            <p>Accelerating development with Renewable Tech.</p>
-                        </div>
-                        <div class="track-card">
-                            <div class="card-glow"></div>
-                            <div class="track-icon">🏢</div>
-                            <h3>Smart Cities</h3>
-                            <p>Innovating for smarter, greener urban living.</p>
-                        </div>
-                        <div class="track-card">
-                            <div class="card-glow"></div>
-                            <div class="track-icon">🌦️</div>
-                            <h3>Climate Action</h3>
-                            <p>Innovating for a low-carbon future.</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
+        
 
 
         <!-- Rewards Section -->

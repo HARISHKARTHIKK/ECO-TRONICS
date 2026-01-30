@@ -527,15 +527,26 @@ if (typeof gsap !== 'undefined') {
 
     const openModal = (card) => {
         const posterSrc = card.getAttribute('data-poster');
-        const title = card.querySelector('h3').innerText;
-        const desc = card.querySelector('p').innerText;
+        const titleEl = card.querySelector('h3') || card.querySelector('h2');
+        const title = titleEl ? titleEl.innerText : 'DETAILS';
+        const desc = card.getAttribute('data-full-desc') || (card.querySelector('p') ? card.querySelector('p').innerText : '');
+        const modalContent = document.querySelector('.modal-content');
 
-        modalImg.src = posterSrc;
+        if (posterSrc) {
+            modalImg.src = posterSrc;
+            modalImg.style.display = 'block';
+            if (modalContent) modalContent.style.display = 'block';
+        } else {
+            modalImg.src = '';
+            modalImg.style.display = 'none';
+            if (modalContent) modalContent.style.display = 'none';
+        }
+
         modalTitle.innerText = title;
         modalDesc.innerText = desc;
 
         posterModal.classList.add('active');
-        document.body.style.overflow = 'hidden'; // Prevent scroll
+        document.body.style.overflow = 'hidden';
     };
 
     const closeModal = () => {
@@ -546,7 +557,7 @@ if (typeof gsap !== 'undefined') {
         }, 300);
     };
 
-    document.querySelectorAll('.event-category-card').forEach(card => {
+    document.querySelectorAll('.event-category-card, .hub-card').forEach(card => {
         card.addEventListener('click', () => openModal(card));
     });
 
