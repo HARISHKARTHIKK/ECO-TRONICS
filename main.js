@@ -49,6 +49,9 @@ if (typeof gsap !== 'undefined') {
     const enterBtn = document.querySelector('#enter-btn');
     const skipIntro = document.querySelector('.skip-intro');
 
+    let playPromise;
+    let loaderStarted = false;
+
     const exitIntro = () => {
         const tl = gsap.timeline();
         tl.to(videoIntro, { opacity: 0, duration: 1, ease: 'power4.inOut' })
@@ -60,30 +63,45 @@ if (typeof gsap !== 'undefined') {
                 gsap.from('.hero-tagline', { opacity: 0, y: 30, duration: 1, ease: 'power4.out' }, '-=0.4');
                 gsap.from('.hero-btns', { opacity: 0, y: 20, duration: 0.8 }, '-=0.6');
                 gsap.from('.hero-bg-image', { opacity: 0, scale: 1.1, duration: 2, ease: 'power2.out' }, '-=1.2');
-                gsap.to('.hero-content', { y: -20, duration: 3, repeat: -1, yoyo: true, ease: 'sine.inOut' });
             });
-        if (introVideo) introVideo.pause();
+
+        if (introVideo) {
+            if (playPromise !== undefined) {
+                playPromise.then(_ => {
+                    introVideo.pause();
+                }).catch(e => {
+                    console.log("Play interrupted or failed:", e);
+                });
+            } else {
+                introVideo.pause();
+            }
+        }
     };
 
     const startLoader = () => {
-        if (!document.body.classList.contains('loading')) return;
+        if (loaderStarted || !document.body.classList.contains('loading')) return;
+        loaderStarted = true;
 
         const tl = gsap.timeline();
         tl.to('.loader-bar', { width: '100%', duration: 1, ease: 'power2.inOut' })
             .to('.preloader', { opacity: 0, duration: 0.8, ease: 'power4.inOut' })
             .call(() => {
-                document.querySelector('.preloader').style.display = 'none';
+                const preloader = document.querySelector('.preloader');
+                if (preloader) preloader.style.display = 'none';
+
                 if (videoIntro) {
                     videoIntro.classList.add('active');
                     gsap.to(videoIntro, { opacity: 1, duration: 1 });
                     if (introVideo) {
-                        introVideo.play().catch(e => console.log("Autoplay blocked or video error:", e));
+                        playPromise = introVideo.play();
+                        if (playPromise !== undefined) {
+                            playPromise.catch(e => console.log("Autoplay blocked or video error:", e));
+                        }
                     }
                     // Animate intro content
                     gsap.to('.intro-status', { opacity: 1, duration: 1, delay: 0.5 });
                     gsap.to('.intro-btn', { opacity: 1, y: 0, duration: 1, delay: 1, ease: 'power4.out' });
                 } else {
-                    // Fallback if video intro missing
                     document.body.classList.remove('loading');
                 }
             });
@@ -148,7 +166,7 @@ if (typeof gsap !== 'undefined') {
     });
 
     // Reveal Animations on Scroll
-    const revealElements = document.querySelectorAll('.ui-panel, .mission-briefing, .track-card, .benefit-panel, .tier-badge');
+    const revealElements = document.querySelectorAll('.ui-panel, .mission-briefing, .track-card, .benefit-panel, .tier-badge, .hub-card, .event-category-card');
     revealElements.forEach(el => {
         gsap.from(el, {
             scrollTrigger: { trigger: el, start: 'top 85%' },
@@ -303,6 +321,59 @@ if (typeof gsap !== 'undefined') {
         init();
     });
 
+    // Generate Data Particles
+    const particleContainer = document.querySelector('.data-particles');
+    if (particleContainer) {
+        for (let i = 0; i < 50; i++) {
+            const particle = document.createElement('div');
+            particle.className = 'particle';
+            const size = Math.random() * 3 + 1;
+            particle.style.width = `${size}px`;
+            particle.style.height = `${size}px`;
+            particle.style.left = `${Math.random() * 100}%`;
+            particle.style.top = `${Math.random() * 100}%`;
+            particleContainer.appendChild(particle);
+
+            gsap.to(particle, {
+                x: `random(-100, 100)`,
+                y: `random(-100, 100)`,
+                opacity: `random(0.1, 0.5)`,
+                duration: `random(3, 8)`,
+                repeat: -1,
+                yoyo: true,
+                ease: 'sine.inOut'
+            });
+        }
+    }
+
+    // Hero Tagline Glitch Effect
+    const tagline = document.querySelector('.hero-tagline');
+    if (tagline) {
+        const text = tagline.innerText;
+        tagline.setAttribute('data-text', text);
+
+        setInterval(() => {
+            if (Math.random() > 0.95) {
+                tagline.classList.add('glitch-active');
+                setTimeout(() => tagline.classList.remove('glitch-active'), 150);
+            }
+        }, 2000);
+    }
+
+    // Smooth Section Reveal for Headlines
+    document.querySelectorAll('.section-title').forEach(title => {
+        gsap.from(title, {
+            scrollTrigger: {
+                trigger: title,
+                start: 'top 90%',
+            },
+            y: 30,
+            opacity: 0,
+            duration: 1,
+            ease: 'power3.out'
+        });
+    });
+
     init();
     animate();
 
@@ -319,27 +390,175 @@ if (typeof gsap !== 'undefined') {
         }
     });
 
+    // Timeline Progress Animation
+    gsap.to('.timeline-progress', {
+        height: '100%',
+        ease: 'none',
+        scrollTrigger: {
+            trigger: '.timeline-path',
+            start: 'top center',
+            end: 'bottom center',
+            scrub: true
+        }
+    });
+
+    // Timeline Active Item Highlighting
+    const timelineItems = document.querySelectorAll('.timeline-item');
+    timelineItems.forEach((item) => {
+        ScrollTrigger.create({
+            trigger: item,
+            start: 'top center+=100',
+            end: 'bottom center-=100',
+            onEnter: () => item.classList.add('active'),
+            onLeave: () => item.classList.remove('active'),
+            onEnterBack: () => item.classList.add('active'),
+            onLeaveBack: () => item.classList.remove('active'),
+        });
+    });
+
+    // Magnetic Buttons
+    const magneticBtns = document.querySelectorAll('.btn, .nav-link, .social-btn');
+    magneticBtns.forEach(btn => {
+        btn.addEventListener('mousemove', (e) => {
+            const rect = btn.getBoundingClientRect();
+            const x = e.clientX - rect.left - rect.width / 2;
+            const y = e.clientY - rect.top - rect.height / 2;
+
+            gsap.to(btn, {
+                x: x * 0.3,
+                y: y * 0.3,
+                duration: 0.3,
+                ease: 'power2.out'
+            });
+        });
+
+        btn.addEventListener('mouseleave', () => {
+            gsap.to(btn, {
+                x: 0,
+                y: 0,
+                duration: 0.3,
+                ease: 'power2.out'
+            });
+        });
+    });
+
+    // Digital Glitch Reveal for Timeline Items
+    gsap.from('.timeline-item', {
+        scrollTrigger: {
+            trigger: '.timeline-path',
+            start: 'top 80%',
+        },
+        y: 60,
+        opacity: 0,
+        skewX: -5,
+        duration: 1,
+        stagger: 0.2,
+        ease: 'power4.out'
+    });
+
     // Reveal Animations for New Sections
     const revealOnScroll = () => {
-        const revealables = document.querySelectorAll('.timeline-item, .flow-box, .prize-card, .event-category-card, .poster-card');
+        const revealables = document.querySelectorAll('.timeline-item, .flow-box, .rewards-arena, .event-category-card, .poster-item, .flux-block, .pipeline-node, .perk-item');
         revealables.forEach(el => {
             const rect = el.getBoundingClientRect();
             if (rect.top < window.innerHeight * 0.9) {
-                el.style.opacity = '1';
-                el.style.transform = 'translateY(0)';
+                if (el.classList.contains('flux-block')) {
+                    el.classList.add('revealed');
+                } else if (el.classList.contains('pipeline-node')) {
+                    el.classList.add('revealed');
+                } else {
+                    el.style.opacity = '1';
+                    el.style.transform = 'translateY(0)';
+                }
             }
         });
     };
 
     // Initial state for revealables
-    document.querySelectorAll('.timeline-item, .flow-box, .prize-card, .event-category-card, .poster-card').forEach(el => {
-        el.style.opacity = '0';
-        el.style.transform = 'translateY(30px)';
-        el.style.transition = 'all 0.6s cubic-bezier(0.16, 1, 0.3, 1)';
+    document.querySelectorAll('.timeline-item, .flow-box, .rewards-arena, .event-category-card, .poster-item, .hub-card, .flux-block, .pipeline-node, .perk-item').forEach(el => {
+        if (!el.classList.contains('flux-block') && !el.classList.contains('pipeline-node')) {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(30px)';
+            el.style.transition = 'all 0.6s cubic-bezier(0.16, 1, 0.3, 1)';
+        }
     });
 
     window.addEventListener('scroll', revealOnScroll);
     revealOnScroll();
+
+    // Prize Pool Count Up Animation
+    const prizeNumber = document.querySelector('.count-up');
+    if (prizeNumber) {
+        const targetVal = parseInt(prizeNumber.innerText);
+        const obj = { value: 0 };
+
+        gsap.to(obj, {
+            value: targetVal,
+            duration: 2.5,
+            ease: "power2.out",
+            scrollTrigger: {
+                trigger: '.rewards-arena',
+                start: 'top 70%',
+            },
+            onUpdate: function () {
+                prizeNumber.textContent = Math.floor(obj.value).toLocaleString();
+            }
+        });
+    }
+
+    // Neural Pipeline Progress Animation
+    gsap.to('.pipeline-progress', {
+        width: '100%',
+        scrollTrigger: {
+            trigger: '.pipeline-container',
+            start: 'top 80%',
+            end: 'bottom 20%',
+            scrub: 1
+        }
+    });
+
+    // Poster Modal Logic
+    const posterModal = document.querySelector('#poster-modal');
+    const modalImg = document.querySelector('#modal-img');
+    const modalTitle = document.querySelector('#modal-title');
+    const modalDesc = document.querySelector('#modal-desc');
+    const modalClose = document.querySelector('.modal-close');
+    const modalOverlay = document.querySelector('.modal-overlay');
+
+    const openModal = (card) => {
+        const posterSrc = card.getAttribute('data-poster');
+        const title = card.querySelector('h3').innerText;
+        const desc = card.querySelector('p').innerText;
+
+        modalImg.src = posterSrc;
+        modalTitle.innerText = title;
+        modalDesc.innerText = desc;
+
+        posterModal.classList.add('active');
+        document.body.style.overflow = 'hidden'; // Prevent scroll
+    };
+
+    const closeModal = () => {
+        posterModal.classList.remove('active');
+        document.body.style.overflow = ''; // Restore scroll
+        setTimeout(() => {
+            modalImg.src = ''; // Clear src after animation
+        }, 300);
+    };
+
+    document.querySelectorAll('.event-category-card').forEach(card => {
+        card.addEventListener('click', () => openModal(card));
+    });
+
+    if (modalClose) modalClose.addEventListener('click', closeModal);
+    if (modalOverlay) modalOverlay.addEventListener('click', closeModal);
+
+    // Esc key close
+    window.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && posterModal.classList.contains('active')) {
+            closeModal();
+        }
+    });
 
 } else {
     // Fallback if GSAP is blocked

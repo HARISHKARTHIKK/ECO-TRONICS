@@ -28,6 +28,8 @@
     <div class="bg-glow"></div>
     <div class="global-bg-robo"></div>
     <div class="circuit-lines"></div>
+    <div class="noise-overlay"></div>
+    <div class="data-particles"></div>
     <canvas id="neural-canvas"></canvas>
 
     <!-- Preloader -->
@@ -43,9 +45,8 @@
 
     <!-- Video Intro Overlay -->
     <div id="video-intro" class="video-intro">
-        <video id="intro-video" muted playsinline loop>
-            <source src="https://assets.mixkit.co/videos/preview/mixkit-circuit-board-animation-1559-large.mp4"
-                type="video/mp4">
+        <video id="intro-video" muted playsinline loop preload="auto">
+            <source src="./introvid.mp4" type="video/mp4">
             Your browser does not support the video tag.
         </video>
         <div class="video-overlay"></div>
@@ -69,8 +70,8 @@
             <ul class="nav-links">
                 <li><a href="#about-srm" class="nav-link">About SRM</a></li>
                 <li><a href="#events" class="nav-link">Events</a></li>
-                <li><a href="#tracks" class="nav-link">Tracks</a></li>
-                <li><a href="#timeline" class="nav-link">Timeline</a></li>
+                <li><a href="#hackathon-portal" class="nav-link">Hackathon</a></li>
+                <li><a href="#timeline" class="nav-link">Schedule</a></li>
                 <li><a href="#team" class="nav-link">Team</a></li>
                 <li><a href="#contact" class="nav-link">Contact</a></li>
             </ul>
@@ -95,18 +96,47 @@
                 </div>
                 <!-- Title removed as it is in the background image -->
                 <br><br><br><br><br>
-                <p class="hero-tagline">“ENGINEERING THE FUTURE. SUSTAINING THE PLANET.”</p>
+                <p class="hero-tagline">“WHERE INNOVATION MEETS COMPETITION.”</p>
                 <div class="hero-date">
-                    <div class="date-badge">21ST & 22ND FEBRUARY 2026</div>
+                    <div class="date-badge">SYMPOSIUM & HACKATHON | 21ST & 22ND FEB 2026</div>
                 </div>
                 <div class="hero-btns">
-                    <a href="#" class="btn btn-glow">🚀 REGISTER NOW</a>
-                    <a href="#" class="btn btn-outline">📘 VIEW BROCHURE</a>
+                    <a href="#events-category" class="btn btn-glow">⚡ EXPLORE EVENTS</a>
+                    <a href="#hackathon-portal" class="btn btn-outline">🤖 JOIN HACKATHON</a>
                 </div>
             </div>
             <div class="scroll-indicator">
                 <div class="mouse"></div>
 
+            </div>
+        </section>
+
+        <!-- Core Experience Hub -->
+        <section id="core-hub" class="section core-hub">
+            <div class="container">
+                <div class="dual-grid">
+
+                    <div class="hub-card hackathon-hub">
+                        <div class="hub-overlay"></div>
+                        <div class="hub-content">
+                            <span class="hub-label">FLAGSHIP EVENT</span>
+                            <h2>THE HACKATHON</h2>
+                            <p>24 hours of intense building. Eco-intelligence meets robotics. Solve real-world climate
+                                challenges with cutting-edge tech.</p>
+                            <a href="#tracks" class="btn btn-glow small">EXPLORE TRACKS</a>
+                        </div>
+                    </div>
+                    <div class="hub-card events-hub">
+                        <div class="hub-overlay"></div>
+                        <div class="hub-content">
+                            <span class="hub-label">TECH SYMPOSIUM</span>
+                            <h2>THE SYMPOSIUM</h2>
+                            <p>A battleground for engineering excellence. From circuit debugging to paper presentations,
+                                witness the peak of technical prowess.</p>
+                            <a href="#events" class="btn btn-outline small">VIEW ALL EVENTS</a>
+                        </div>
+                    </div>
+                </div>
             </div>
         </section>
 
@@ -151,211 +181,306 @@
             </div>
         </section>
 
-        <!-- Timeline - RELOCATED -->
-        <section id="timeline" class="section timeline">
+        <!-- Innovative Command Schedule (Flux Path) -->
+        <section id="timeline" class="section timeline-flux">
             <div class="container">
-                <h2 class="section-title">HACKATHON TIMELINE</h2>
-                <div class="timeline-path">
-                    <div class="timeline-line"></div>
-                    <div class="timeline-item revealed">
-                        <div class="timeline-content">
-                            <h3>REGISTRATION</h3>
-                            <p>10th Nov 2026 - 20th Dec 2026</p>
-                        </div>
-                        <div class="timeline-dot"></div>
-                    </div>
-                    <div class="timeline-item revealed">
-                        <div class="timeline-content">
-                            <h3>PROBLEM RELEASE</h3>
-                            <p>25th Dec 2026</p>
-                        </div>
-                        <div class="timeline-dot"></div>
-                    </div>
-                    <div class="timeline-item revealed">
-                        <div class="timeline-content">
-                            <h3>HACKATHON DAY</h3>
-                            <p>10th - 11th Jan 2027</p>
-                        </div>
-                        <div class="timeline-dot"></div>
-                    </div>
-                    <div class="timeline-item revealed">
-                        <div class="timeline-content">
-                            <h3>RESULTS</h3>
-                            <p>12th Jan 2027</p>
-                        </div>
-                        <div class="timeline-dot"></div>
-                    </div>
+                <div class="modern-header text-center mb-large">
+                    <h2 class="title-glow">FLUX SCHEDULE</h2>
+                    <p class="sub-title">SEQUENCE OF OPERATIONS // 2026.02.21-22</p>
                 </div>
-            </div>
-        </section>
 
-        <!-- About TEXUS -->
-        <section id="about-texus" class="section about-texus">
-            <div class="container">
-                <div class="mission-briefing">
-                    <div class="briefing-header">
-                        <h2>ECO-TRONICS MISSION BRIEFING</h2>
+                <div class="flux-wrapper">
+                    <div class="flux-path-container">
+                        <div class="flux-line"></div>
+                        <div class="flux-pulse"></div>
                     </div>
-                    <div class="briefing-content">
-                        <p>ECO-TRONICS is a national-level technical hackathon of the Department of ECE, SRM IST
-                            Ramapuram. It stands as a pinnacle of innovation and engineering excellence, providing a
-                            dynamic platform for students to showcase their talent across diverse domains of electronics
-                            and communication.</p>
-                        <div class="mission-objectives">
-                            <div class="objective">
-                                <span class="obj-icon">01</span>
-                                <span class="obj-text">Foster Innovation</span>
+
+                    <div class="flux-events">
+                        <!-- Node 01 -->
+                        <div class="flux-block" data-node="01">
+                            <div class="flux-node">
+                                <span class="node-id">01</span>
                             </div>
-                            <div class="objective">
-                                <span class="obj-icon">02</span>
-                                <span class="obj-text">Bridging Industry Gaps</span>
-                            </div>
-                            <div class="objective">
-                                <span class="obj-icon">03</span>
-                                <span class="obj-text">Technical Leadership</span>
+                            <div class="flux-card">
+                                <div class="flux-meta">
+                                    <span class="flux-time">SYSTEM READY</span>
+                                    <span class="flux-status">ONLINE</span>
+                                </div>
+                                <h3>REGISTRATION PHASE</h3>
+                                <p>Onboard your team into the Eco-Intelligence network. Final slots remaining.</p>
+                                <div class="card-action">
+                                    <span class="action-tag">INITIALIZING...</span>
+                                </div>
                             </div>
                         </div>
+
+                        <!-- Node 02 -->
+                        <div class="flux-block" data-node="02">
+                            <div class="flux-node">
+                                <span class="node-id">02</span>
+                            </div>
+                            <div class="flux-card">
+                                <div class="flux-meta">
+                                    <span class="flux-time">FEB 21 - 09:00</span>
+                                    <span class="flux-status">WARMUP</span>
+                                </div>
+                                <h3>SYMPOSIUM KICKSTART</h3>
+                                <p>Circuit battles and research defenses begin. The engineering arena opens.</p>
+                                <div class="card-action">
+                                    <span class="action-tag">SYNCING DATA</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Node 03 -->
+                        <div class="flux-block highlight" data-node="03">
+                            <div class="flux-node">
+                                <span class="node-id">03</span>
+                            </div>
+                            <div class="flux-card">
+                                <div class="flux-meta">
+                                    <span class="flux-time">FEB 21 - 11:00</span>
+                                    <span class="flux-status">CRITICAL</span>
+                                </div>
+                                <h3>HACK-ARRAY ACTIVATED</h3>
+                                <p>The 24-hour innovation sprint begins. Code, Solder, Build. No turning back.</p>
+                                <div class="card-action">
+                                    <span class="action-tag">FULL POWER</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Node 04 -->
+                        <div class="flux-block" data-node="04">
+                            <div class="flux-node">
+                                <span class="node-id">04</span>
+                            </div>
+                            <div class="flux-card">
+                                <div class="flux-meta">
+                                    <span class="flux-time">FEB 22 - 11:00</span>
+                                    <span class="flux-status">PROCESSING</span>
+                                </div>
+                                <h3>NEURAL EVALUATION</h3>
+                                <p>The Final Pitch. Present your eco-solutions to the Master Jury.</p>
+                                <div class="card-action">
+                                    <span class="action-tag">ANALYZING</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Node 05 -->
+                        <div class="flux-block terminal" data-node="05">
+                            <div class="flux-node">
+                                <span class="node-id">05</span>
+                            </div>
+                            <div class="flux-card">
+                                <div class="flux-meta">
+                                    <span class="flux-time">FEB 22 - 16:00</span>
+                                    <span class="flux-status">COMPLETE</span>
+                                </div>
+                                <h3>COMMAND FINALE</h3>
+                                <p>Mission debrief and victory sequence. Rewards distributed to the elite.</p>
+                                <div class="card-action">
+                                    <span class="action-tag">MISSION END</span>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- About Hackathon -->
-        <section id="hackathon" class="section hackathon">
-            <div class="container text-center">
-                <div class="modern-header mb-large">
-                    <h2 class="title-glow">MISSION: SUSTAINABLE INNOVATION</h2>
-                    <p>National Level Hackathon Competition</p>
-                </div>
-                <div class="mission-details">
-                    <p class="large-text">ECO-TRONICS is not just a competition; it's a movement where "Eco Intelligence
-                        Meets Robotics." We challenge the brightest minds to build solutions that harmonize high-end
-                        technology with ecological preservation.</p>
-                </div>
-            </div>
-        </section>
-
-        <!-- Tracks -->
-        <section id="tracks" class="section tracks">
-            <div class="container">
-                <h2 class="section-title">HACKATHON MODULES (TRACKS)</h2>
-                <div class="tracks-grid">
-                    <div class="track-card">
-                        <div class="card-glow"></div>
-                        <div class="track-icon">🌱</div>
-                        <h3>Eco Tech</h3>
-                        <p>Green sustainability solutions & renewable energy systems.</p>
-                    </div>
-                    <div class="track-card">
-                        <div class="card-glow"></div>
-                        <div class="track-icon">❤️</div>
-                        <h3>Health Tech</h3>
-                        <p>Next-gen medical devices and AI health monitoring.</p>
-                    </div>
-                    <div class="track-card">
-                        <div class="card-glow"></div>
-                        <div class="track-icon">🎓</div>
-                        <h3>EdTech</h3>
-                        <p>Technology driven Industry ready Learning.</p>
-                    </div>
-                    <div class="track-card">
-                        <div class="card-glow"></div>
-                        <div class="track-icon">🔋</div>
-                        <h3>Affordable and clean energy Tech</h3>
-                        <p>Accelerating development with Renewable Energy Technology.</p>
-                    </div>
-                    <div class="track-card">
-                        <div class="card-glow"></div>
-                        <div class="track-icon">🏢</div>
-                        <h3>Sustainable Cities and Communities</h3>
-                        <p>Innovating for smarter, greener urban living and community development.</p>
-                    </div>
-                    <div class="track-card">
-                        <div class="card-glow"></div>
-                        <div class="track-icon">🌦️</div>
-                        <h3>Climate Action</h3>
-                        <p>Innovating for a low-carbon future.</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Events Section -->
+        <!-- Detailed Events Ecosystem -->
         <section id="events" class="section events">
             <div class="container">
                 <h2 class="section-title">EVENT ECOSYSTEM</h2>
-                <div class="events-grid-nav">
-                    <div class="event-category-card">
-                        <i>⚙️</i>
-                        <h3>TECHNICAL</h3>
-                        <p>Paper Presentations, Circuit Debugging, Coding Challenges.</p>
+                <div class="events-showcase">
+                    <!-- Technical Row -->
+                    <div class="event-row">
+                        <div class="row-header">
+                            <span class="row-type">01</span>
+                            <h3>TECHNICAL BATTLES</h3>
+                        </div>
+                        <div class="events-grid-nav">
+                            <div class="event-category-card" data-poster="paper_presentation_poster.png">
+                                <i>📝</i>
+                                <h3>PAPER PRESENTATION</h3>
+                                <p>Unveil your research and innovations.</p>
+                                <span class="view-poster">VIEW POSTER</span>
+                            </div>
+                            <div class="event-category-card" data-poster="circuit_debugging_poster.png">
+                                <i>🔌</i>
+                                <h3>CIRCUIT DEBUGGING</h3>
+                                <p>Trace the fault, fix the flow.</p>
+                                <span class="view-poster">VIEW POSTER</span>
+                            </div>
+                            <div class="event-category-card" data-poster="coding_challenge_poster.png">
+                                <i>💻</i>
+                                <h3>CODING CHALLENGE</h3>
+                                <p>Algorithmic warfare at its finest.</p>
+                                <span class="view-poster">VIEW POSTER</span>
+                            </div>
+                        </div>
                     </div>
-                    <div class="event-category-card">
-                        <i>🎨</i>
-                        <h3>NON-TECHNICAL</h3>
-                        <p>IPL Auction, Cine phile, Squid game.</p>
+
+                    <!-- Non-Technical Row -->
+                    <div class="event-row">
+                        <div class="row-header">
+                            <span class="row-type">02</span>
+                            <h3>BEYOND ENGINEERING</h3>
+                        </div>
+                        <div class="events-grid-nav">
+                            <div class="event-category-card" data-poster="ipl_auction_poster.png">
+                                <i>🏏</i>
+                                <h3>IPL AUCTION</h3>
+                                <p>Build your dream team, manage the budget.</p>
+                                <span class="view-poster">VIEW POSTER</span>
+                            </div>
+                            <div class="event-category-card" data-poster="cinephile_poster.png">
+                                <i>🎬</i>
+                                <h3>CINEPHILE</h3>
+                                <p>The ultimate test for movie buffs.</p>
+                                <span class="view-poster">VIEW POSTER</span>
+                            </div>
+                            <div class="event-category-card" data-poster="squid_game_poster.png">
+                                <i>🦑</i>
+                                <h3>SQUID GAME</h3>
+                                <p>Strategy and survival in the tech arena.</p>
+                                <span class="view-poster">VIEW POSTER</span>
+                            </div>
+                        </div>
                     </div>
-                    <div class="event-category-card">
-                        <i>🛠️</i>
-                        <h3>WORKSHOP</h3>
-                        <p>Hands-on sessions with AI, Robotics, and IoT Experts.</p>
+
+                    <!-- Workshops Row -->
+                    <div class="event-row">
+                        <div class="row-header">
+                            <span class="row-type">03</span>
+                            <h3>SKILL UPGRADES</h3>
+                        </div>
+                        <div class="events-grid-nav">
+                            <div class="event-category-card full-width" data-poster="mulsoft_workshop_poster.png">
+                                <i>🛠️</i>
+                                <h3>MULSOFT WORKSHOP</h3>
+                                <p>Master API integration with industry experts from Mulsoft.</p>
+                                <span class="view-poster">VIEW POSTER</span>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </section>
+
+        <!-- Hackathon Portal -->
+        <section id="hackathon-portal" class="section hackathon-portal">
+            <div class="container">
+                <div class="modern-header mb-large text-center">
+                    <h2 class="title-glow">THE HACKATHON</h2>
+                </div>
+                <!-- Tracks -->
+                <div id="tracks" class="tracks-container">
+                    <h3 class="sub-title text-center mb-medium">MISSION TRACKS</h3>
+                    <div class="tracks-grid">
+                        <div class="track-card">
+                            <div class="card-glow"></div>
+                            <div class="track-icon">�</div>
+                            <h3>Eco Tech</h3>
+                            <p>Green sustainability solutions & renewable energy systems.</p>
+                        </div>
+                        <div class="track-card">
+                            <div class="card-glow"></div>
+                            <div class="track-icon">❤️</div>
+                            <h3>Health Tech</h3>
+                            <p>Next-gen medical devices and AI health monitoring.</p>
+                        </div>
+                        <div class="track-card">
+                            <div class="card-glow"></div>
+                            <div class="track-icon">�</div>
+                            <h3>EdTech</h3>
+                            <p>Technology driven Industry ready Learning.</p>
+                        </div>
+                        <div class="track-card">
+                            <div class="card-glow"></div>
+                            <div class="track-icon">🔋</div>
+                            <h3>Clean Energy</h3>
+                            <p>Accelerating development with Renewable Tech.</p>
+                        </div>
+                        <div class="track-card">
+                            <div class="card-glow"></div>
+                            <div class="track-icon">🏢</div>
+                            <h3>Smart Cities</h3>
+                            <p>Innovating for smarter, greener urban living.</p>
+                        </div>
+                        <div class="track-card">
+                            <div class="card-glow"></div>
+                            <div class="track-icon">🌦️</div>
+                            <h3>Climate Action</h3>
+                            <p>Innovating for a low-carbon future.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
 
         <!-- Rewards Section -->
-        <section id="rewards" class="section rewards">
-            <div class="container">
-                <h2 class="section-title">REWARDS</h2>
-                <div class="prizes-wrap">
-                    <div class="prize-card silver-prize">
-                        <div class="prize-rank">RUNNER UP</div>
-                        <div class="prize-amount">₹20,000</div>
-                        <p>Exclusive Goodies + Internship Opportunities</p>
+        <section id="rewards" class="section rewards-arena">
+            <div class="container container-large">
+                <div class="arena-header text-center">
+                    <h2 class="arena-title" data-text="PRIZE POOL">MEGA PRIZE POOL</h2><br>
+                    <div class="valuation-tag">GLOBAL ECO-SYSTEM VALUATION</div>
+                </div>
+
+                <div class="prize-hub">
+                    <div class="hub-visual">
+                        <div class="glow-orb"></div>
+                        <div class="trophy-phantom">🏆</div>
+                        <div class="data-streams">
+                            <span class="stream"></span>
+                            <span class="stream"></span>
+                            <span class="stream"></span>
+                        </div>
                     </div>
-                    <div class="prize-card gold-prize">
-                        <div class="prize-rank">WINNER</div>
-                        <div class="prize-amount">₹50,000</div>
-                        <p>Ultimate Trophy + Equity Funding Support</p>
+
+                    <div class="hub-content">
+                        <div class="main-amount">
+                            <span class="currency">₹</span>
+                            <span class="number count-up">25000</span>
+                            <span class="plus">+</span>
+                        </div>
+                        <p class="prize-subtitle">EXCLUSIVE REWARDS & TECH ACCESS FOR INNOVATORS</p>
+
+                        <div class="perks-grid">
+                            <div class="perk-item">
+                                <div class="perk-icon">🎯</div>
+                                <div class="perk-text">
+                                    <h4>CHAMPIONSHIP TROPHY</h4>
+                                    <p>Symbol of Ultimate Innovation</p>
+                                </div>
+                            </div>
+                            <div class="perk-item">
+                                <div class="perk-icon">💼</div>
+                                <div class="perk-text">
+                                    <h4>CORPORATE ACCESS</h4>
+                                    <p>Internships & Mentorships</p>
+                                </div>
+                            </div>
+                            <div class="perk-item">
+                                <div class="perk-icon">⚡</div>
+                                <div class="perk-text">
+                                    <h4>TECH GEAR</h4>
+                                    <p>Premium Exclusive Swag Packs</p>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <div class="prize-card bronze-prize">
-                        <div class="prize-rank">2ND RUNNER</div>
-                        <div class="prize-amount">₹10,000</div>
-                        <p>Certificate of Excellence + Tech Swag</p>
-                    </div>
+                </div>
+
+                <div class="arena-footer text-center">
+                    <div class="manifesto">“NOT JUST PRIZES, BUT A PATHWAY TO THE TECH FRONTIER.”</div>
                 </div>
             </div>
         </section>
 
-        <!-- Technical Flow -->
-        <section id="flow" class="section flow">
-            <div class="container">
-                <h2 class="section-title">COMMAND CHAIN (FLOW)</h2>
-                <div class="flow-steps">
-                    <div class="flow-box">
-                        <h4>01</h4>
-                        <h3>Ideation</h3>
-                        <p>Developing core concept and architecture.</p>
-                    </div>
-                    <div class="flow-box">
-                        <h4>02</h4>
-                        <h3>Development</h3>
-                        <p>24-hour intense coding and prototyping.</p>
-                    </div>
-                    <div class="flow-box">
-                        <h4>03</h4>
-                        <h3>Demonstration</h3>
-                        <p>Live pitch to industry jury.</p>
-                    </div>
-                    <div class="flow-box">
-                        <h4>04</h4>
-                        <h3>Integration</h3>
-                        <p>Deployment and future scalability.</p>
-                    </div>
-                </div>
-            </div>
-        </section>
 
         <!-- What We Offer -->
         <section id="offers" class="section offers">
@@ -479,23 +604,29 @@
             <div class="container">
                 <h2 class="section-title">GUESTS & MENTORS</h2>
                 <div class="poster-grid">
-                    <div class="poster-card">
-                        <img src="guest_elena_sparks_1769676339391.png" alt="Dr. Elena Sparks" class="poster-img">
-                        <div class="poster-content">
+                    <div class="poster-item">
+                        <div class="poster-card">
+                            <div class="coming-soon">COMING SOON</div>
+                        </div>
+                        <div class="poster-footer">
                             <h3 class="poster-title">Dr. Elena Sparks</h3>
                             <p>AI Research Lead, Quantum Labs</p>
                         </div>
                     </div>
-                    <div class="poster-card">
-                        <img src="guest_marcus_vane_1769676438439.png" alt="Marcus Vane" class="poster-img">
-                        <div class="poster-content">
+                    <div class="poster-item">
+                        <div class="poster-card">
+                            <div class="coming-soon">COMING SOON</div>
+                        </div>
+                        <div class="poster-footer">
                             <h3 class="poster-title">Marcus Vane</h3>
                             <p>Senior Architect, Tesla Robotics</p>
                         </div>
                     </div>
-                    <div class="poster-card">
-                        <img src="guest_sarah_chen_1769676538634.png" alt="Sarah Chen" class="poster-img">
-                        <div class="poster-content">
+                    <div class="poster-item">
+                        <div class="poster-card">
+                            <div class="coming-soon">COMING SOON</div>
+                        </div>
+                        <div class="poster-footer">
                             <h3 class="poster-title">Sarah Chen</h3>
                             <p>Eco-Sustainability Advisor, UN</p>
                         </div>
@@ -654,6 +785,30 @@
                 </div>
             </div>
         </section>
+        <!-- Key Stats Section -->
+        <section class="section stats-banner">
+            <div class="container">
+                <div class="stats-ticker">
+                    <div class="stat-box">
+                        <span class="stat-number"></span>
+                        <span class="stat-desc"></span>
+                    </div>
+                    <div class="stat-box">
+                        <span class="stat-number"></span>
+                        <span class="stat-desc"></span>
+                    </div>
+                    <div class="stat-box">
+                        <span class="stat-number"></span>
+                        <span class="stat-desc"></span>
+                    </div>
+                    <div class="stat-box">
+                        <span class="stat-number"></span>
+                        <span class="stat-desc"></span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
     </main>
 
     <section id="contact" class="section contact">
@@ -704,6 +859,21 @@
             </div>
         </div>
     </footer>
+
+    <!-- Poster Modal -->
+    <div id="poster-modal" class="poster-modal">
+        <div class="modal-overlay"></div>
+        <div class="modal-container">
+            <button class="modal-close">&times;</button>
+            <div class="modal-content">
+                <img id="modal-img" src="" alt="Event Poster">
+            </div>
+            <div class="modal-footer">
+                <h3 id="modal-title">EVENT NAME</h3>
+                <p id="modal-desc">Event description goes here.</p>
+            </div>
+        </div>
+    </div>
 
     <script src="main.js"></script>
 </body>
