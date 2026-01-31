@@ -294,7 +294,8 @@ body.loading {
     position: relative;
     z-index: 2;
     text-align: center;
-    max-width: 800px;
+    max-width: 1000px;
+    width: 90%;
     padding: 2rem;
 }
 
@@ -311,6 +312,7 @@ body.loading {
     text-shadow: var(--neon-glow);
     display: block;
     position: relative;
+    white-space: nowrap;
 }
 
 .intro-title .sub-title {
