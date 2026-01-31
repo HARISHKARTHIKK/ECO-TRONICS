@@ -52,7 +52,11 @@ if (typeof gsap !== 'undefined') {
     let playPromise;
     let loaderStarted = false;
 
+    let introExited = false;
     const exitIntro = () => {
+        if (introExited) return;
+        introExited = true;
+
         const tl = gsap.timeline();
         tl.to(videoIntro, { opacity: 0, duration: 1, ease: 'power4.inOut' })
             .call(() => {
@@ -127,6 +131,7 @@ if (typeof gsap !== 'undefined') {
 
     if (enterBtn) enterBtn.addEventListener('click', exitIntro);
     if (skipIntro) skipIntro.addEventListener('click', exitIntro);
+    if (videoIntro) videoIntro.addEventListener('click', exitIntro);
 
     window.addEventListener('load', startLoader);
 

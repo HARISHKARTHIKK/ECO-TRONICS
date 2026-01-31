@@ -483,9 +483,6 @@ body.loading {
     transition: var(--transition);
 }
 
-.nav-left-logos:hover {
-    transform: scale(1.05);
-}
 
 .nav-srm-logo {
     height: 50px;
@@ -504,9 +501,6 @@ body.loading {
     transition: var(--transition);
 }
 
-.nav-center-logos:hover {
-    transform: scale(1.05);
-}
 
 .nav-texus-logo {
     height: 120px;
