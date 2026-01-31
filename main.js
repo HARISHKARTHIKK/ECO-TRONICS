@@ -563,7 +563,12 @@ if (typeof gsap !== 'undefined') {
     };
 
     document.querySelectorAll('.event-category-card, .hub-card').forEach(card => {
-        card.addEventListener('click', () => openModal(card));
+        card.addEventListener('click', (e) => {
+            // If click is on the register button, let the link handle it
+            if (e.target.closest('.register-btn')) return;
+
+            openModal(card);
+        });
     });
 
     if (modalClose) modalClose.addEventListener('click', closeModal);
