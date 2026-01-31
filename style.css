@@ -986,6 +986,48 @@ body.loading {
     display: flex;
     flex-direction: column;
     align-items: center;
+    z-index: 1;
+}
+
+.track-bg-container {
+    position: absolute;
+    inset: 0;
+    background-size: cover;
+    background-position: center;
+    opacity: 0.15;
+    z-index: -1;
+    transition: var(--transition);
+    filter: grayscale(100%) brightness(0.6);
+}
+
+.track-card:hover .track-bg-container {
+    opacity: 0.3;
+    filter: grayscale(0%) brightness(0.8);
+    transform: scale(1.1);
+}
+
+.eco-tech-bg {
+    background-image: url('eco_tech_bg.png');
+}
+
+.health-tech-bg {
+    background-image: url('health_tech_bg.png');
+}
+
+.edtech-bg {
+    background-image: url('edtech_bg.png');
+}
+
+.clean-energy-bg {
+    background-image: url('clean_energy_bg.png');
+}
+
+.urban-intel-bg {
+    background-image: url('urban_intel_bg.png');
+}
+
+.climate-action-bg {
+    background-image: url('climate_action_bg.png');
 }
 
 .track-card:hover {
