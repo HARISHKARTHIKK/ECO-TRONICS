@@ -1211,6 +1211,33 @@ body.loading {
     color: var(--neon-green);
     text-decoration: none;
     font-family: var(--font-heading);
+    transition: var(--transition);
+}
+
+.info-group a:hover {
+    text-shadow: var(--neon-glow);
+}
+
+.social-links {
+    display: flex;
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+.contact-info {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+@media (max-width: 768px) {
+    .contact-panel {
+        padding: 2rem;
+    }
+
+    .social-links {
+        justify-content: center;
+    }
 }
 
 /* Footer */
@@ -3038,6 +3065,7 @@ body.loading {
     grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
     gap: 30px;
     justify-items: center;
+    justify-content: center;
 }
 
 .committee-card {
@@ -3122,6 +3150,48 @@ body.loading {
     border-radius: 50%;
 }
 
+/* Stats Banner */
+.stats-banner {
+    background: var(--deep-emerald);
+    border-top: 1px solid var(--neon-green);
+    border-bottom: 1px solid var(--neon-green);
+    padding: 4rem 0;
+}
+
+.stats-ticker {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 2rem;
+    text-align: center;
+}
+
+.stat-box {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.stat-number {
+    font-family: var(--font-heading);
+    font-size: 2.5rem;
+    color: var(--neon-green);
+    font-weight: 800;
+    text-shadow: var(--neon-glow);
+}
+
+.stat-desc {
+    font-family: var(--font-sub);
+    font-size: 0.7rem;
+    letter-spacing: 2px;
+    opacity: 0.7;
+}
+
+@media (max-width: 768px) {
+    .stats-ticker {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
 @media (max-width: 992px) {
     .venue-wrapper {
         grid-template-columns: 1fr;
@@ -3129,48 +3199,6 @@ body.loading {
 
     .timeline-line {
         left: 20px;
-    }
-
-    /* Stats Banner */
-    .stats-banner {
-        background: var(--deep-emerald);
-        border-top: 1px solid var(--neon-green);
-        border-bottom: 1px solid var(--neon-green);
-        padding: 4rem 0;
-    }
-
-    .stats-ticker {
-        display: grid;
-        grid-template-columns: repeat(4, 1fr);
-        gap: 2rem;
-        text-align: center;
-    }
-
-    .stat-box {
-        display: flex;
-        flex-direction: column;
-        gap: 0.5rem;
-    }
-
-    .stat-number {
-        font-family: var(--font-heading);
-        font-size: 2.5rem;
-        color: var(--neon-green);
-        font-weight: 800;
-        text-shadow: var(--neon-glow);
-    }
-
-    .stat-desc {
-        font-family: var(--font-sub);
-        font-size: 0.7rem;
-        letter-spacing: 2px;
-        opacity: 0.7;
-    }
-
-    @media (max-width: 768px) {
-        .stats-ticker {
-            grid-template-columns: repeat(2, 1fr);
-        }
     }
 
     .timeline-item,

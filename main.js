@@ -486,10 +486,10 @@ if (typeof gsap !== 'undefined') {
     window.addEventListener('scroll', revealOnScroll);
     revealOnScroll();
 
-    // Prize Pool Count Up Animation
-    const prizeNumber = document.querySelector('.count-up');
-    if (prizeNumber) {
-        const targetVal = parseInt(prizeNumber.innerText);
+    // Generic Count Up Animation for Multiple Elements
+    const prizeNumbers = document.querySelectorAll('.count-up');
+    prizeNumbers.forEach(prizeNumber => {
+        const targetVal = parseInt(prizeNumber.innerText.replace(/,/g, ''));
         const obj = { value: 0 };
 
         gsap.to(obj, {
@@ -497,14 +497,14 @@ if (typeof gsap !== 'undefined') {
             duration: 2.5,
             ease: "power2.out",
             scrollTrigger: {
-                trigger: '.rewards-arena',
-                start: 'top 70%',
+                trigger: prizeNumber,
+                start: 'top 85%',
             },
             onUpdate: function () {
                 prizeNumber.textContent = Math.floor(obj.value).toLocaleString();
             }
         });
-    }
+    });
 
     // Neural Pipeline Progress Animation
     gsap.to('.pipeline-progress', {
