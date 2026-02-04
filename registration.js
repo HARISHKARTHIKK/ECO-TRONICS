@@ -105,11 +105,10 @@ document.addEventListener('DOMContentLoaded', () => {
             }
 
             // --- 4. Upload File to Supabase Storage ---
-            const timestamp = Date.now(); // Unique timestamp
             const fileExt = pptFile.name.split('.').pop();
             // Sanitize team name for the storage path
             const safeTeamName = teamName.replace(/[^a-z0-9]/gi, '_');
-            const fileName = `${safeTeamName}_ID${currentTeamID}_T${timestamp}.${fileExt}`;
+            const fileName = `${safeTeamName}_${currentTeamID}.${fileExt}`;
             const filePath = `submissions/${fileName}`;
 
             const { data: uploadData, error: uploadError } = await supabaseClient.storage
