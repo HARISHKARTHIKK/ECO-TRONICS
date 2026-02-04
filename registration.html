@@ -1,0 +1,609 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <link rel="icon" type="image/png" href="/favicon.png" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registration | ECO-TRONICS 2026</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Outfit:wght@300;400;500;600;700&family=Syncopate:wght@400;700&display=swap"
+        rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lenis/1.0.19/lenis.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <style>
+        body:not(.loading) .registration-container {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .registration-container {
+            padding-top: 140px;
+            padding-bottom: 80px;
+            max-width: 900px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 100 !important;
+            /* Extremely high z-index to stay on top */
+            background: radial-gradient(circle at center, rgba(11, 15, 20, 0.4) 0%, transparent 80%);
+            /* Added subtle central darkening */
+        }
+
+        .form-section {
+            margin-bottom: 40px;
+            padding: 40px;
+            background: rgba(11, 15, 20, 0.95);
+            /* Even higher opacity */
+            backdrop-filter: blur(30px);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            /* More visible border */
+            border-radius: 12px;
+            position: relative;
+            overflow: hidden;
+            transition: var(--transition);
+            z-index: 20;
+            /* Ensure it stays above everything */
+            opacity: 1 !important;
+            /* Force visibility */
+            transform: none !important;
+            /* Prevent unintended GSAP offsets */
+        }
+
+        .form-section:hover {
+            border-color: rgba(0, 255, 136, 0.4);
+            box-shadow: 0 0 50px rgba(0, 255, 136, 0.15);
+            /* Stronger glow on hover */
+        }
+
+        .form-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            background: var(--neon-green);
+            box-shadow: var(--neon-glow);
+        }
+
+        .section-title {
+            font-family: var(--font-heading);
+            font-size: 1.4rem;
+            /* Increased size */
+            color: var(--neon-green);
+            margin-bottom: 30px;
+            letter-spacing: 3px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            text-transform: uppercase;
+            text-shadow: 0 0 10px rgba(0, 255, 136, 0.3);
+            /* Added glow */
+        }
+
+        .section-title span {
+            font-family: var(--font-sub);
+            font-size: 0.8rem;
+            opacity: 0.5;
+            color: var(--text-white);
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 25px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .full-width {
+            grid-column: span 2;
+        }
+
+        label {
+            font-family: var(--font-sub);
+            font-size: 0.7rem;
+            letter-spacing: 2px;
+            color: var(--text-white);
+            opacity: 0.9;
+            text-transform: uppercase;
+        }
+
+        input,
+        select,
+        textarea {
+            background: rgba(255, 255, 255, 0.08);
+            /* Increased background opacity */
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            /* Increased border opacity */
+            padding: 14px 18px;
+            border-radius: 4px;
+            color: var(--text-white);
+            font-family: var(--font-body);
+            font-size: 1rem;
+            transition: var(--transition);
+        }
+
+        input::placeholder {
+            color: rgba(255, 255, 255, 0.5);
+            /* Added visible placeholder color */
+        }
+
+        input:focus,
+        select:focus,
+        textarea:focus {
+            outline: none;
+            border-color: var(--neon-green);
+            background: rgba(0, 255, 136, 0.1);
+            /* Brighter on focus */
+            box-shadow: 0 0 20px rgba(0, 255, 136, 0.2);
+        }
+
+        select option {
+            background: var(--bg-black);
+            color: var(--text-white);
+        }
+
+        .file-upload-wrapper {
+            border: 2px dashed rgba(0, 255, 136, 0.2);
+            border-radius: 8px;
+            padding: 50px 30px;
+            text-align: center;
+            cursor: pointer;
+            transition: var(--transition);
+            background: rgba(0, 255, 136, 0.02);
+        }
+
+        .file-upload-wrapper:hover {
+            background: rgba(0, 255, 136, 0.05);
+            border-color: var(--neon-green);
+            box-shadow: inset 0 0 20px rgba(0, 255, 136, 0.05);
+        }
+
+        .file-upload-wrapper i {
+            font-size: 2.5rem;
+            display: block;
+            margin-bottom: 15px;
+            font-style: normal;
+        }
+
+        #file-name-display {
+            margin-top: 15px;
+            font-family: var(--font-sub);
+            font-size: 0.7rem;
+            color: var(--neon-green);
+            letter-spacing: 1px;
+        }
+
+        .submit-container {
+            text-align: center;
+            margin-top: 50px;
+        }
+
+        .btn-submit {
+            padding: 20px 80px;
+            font-size: 1.1rem;
+            width: 100%;
+            max-width: 500px;
+            letter-spacing: 4px;
+        }
+
+        @media (max-width: 768px) {
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .full-width {
+                grid-column: span 1;
+            }
+
+            .registration-container {
+                padding-left: 20px;
+                padding-right: 20px;
+                padding-top: 100px;
+            }
+
+            .form-section {
+                padding: 30px 20px;
+            }
+        }
+
+        /* Success/Error Styling */
+        #status-message {
+            margin-top: 25px;
+            padding: 20px;
+            border-radius: 8px;
+            display: none;
+            text-align: center;
+            font-family: var(--font-sub);
+            font-size: 0.75rem;
+            letter-spacing: 1.5px;
+            line-height: 1.6;
+            animation: slideUp 0.4s ease-out;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .status-success {
+            background: rgba(0, 255, 136, 0.1);
+            color: var(--neon-green);
+            border: 1px solid var(--neon-green);
+            display: block !important;
+            box-shadow: 0 0 20px rgba(0, 255, 136, 0.1);
+        }
+
+        .status-error {
+            background: rgba(255, 50, 50, 0.1);
+            color: #ff3e3e;
+            border: 1px solid #ff3e3e;
+            display: block !important;
+            box-shadow: 0 0 20px rgba(255, 62, 62, 0.1);
+        }
+
+        .loader-spinner {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 2px solid rgba(0, 10, 5, 0.3);
+            border-top: 2px solid var(--bg-black);
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+            margin-right: 15px;
+            vertical-align: middle;
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* Back Button */
+        .back-nav {
+            position: absolute;
+            top: 40px;
+            left: 5%;
+            z-index: 1004;
+        }
+
+        .btn-back {
+            background: transparent;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: var(--text-white);
+            padding: 10px 20px;
+            border-radius: 4px;
+            font-family: var(--font-sub);
+            font-size: 0.7rem;
+            text-decoration: none;
+            letter-spacing: 2px;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .btn-back:hover {
+            border-color: var(--neon-green);
+            color: var(--neon-green);
+            background: rgba(0, 255, 136, 0.05);
+        }
+    </style>
+</head>
+
+<body class="loading">
+    <div class="custom-cursor"></div>
+    <div class="cursor-glow"></div>
+
+    <!-- Background Elements -->
+    <div class="bg-grid"></div>
+    <div class="bg-glow"></div>
+    <div class="global-bg-robo"></div>
+    <div class="circuit-lines"></div>
+    <div class="noise-overlay"></div>
+    <div class="data-particles"></div>
+    <canvas id="neural-canvas"></canvas>
+
+    <!-- Navigation -->
+    <nav class="navbar scrolled">
+        <div class="nav-container">
+            <div class="nav-left-logos">
+                <a href="index.html"><img src="srm-logo.png" alt="SRM" class="nav-srm-logo"></a>
+            </div>
+
+            <div class="nav-right-block">
+                <a href="index.html" class="eco-brand" style="text-decoration: none;">
+                    <span class="eco">ECO</span>-<span class="tronics">TRONICS</span>
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="registration-container">
+        <div class="modern-header mb-large text-center">
+            <h2 class="title-glow">MISSION_ONBOARDING</h2>
+            <p class="sub-title">SEQUENCE: INITIALIZE_TEAM_DATA // 2026.HACK</p>
+        </div>
+
+        <form id="registration-form">
+            <!-- Team Info -->
+            <div class="form-section">
+                <h3 class="section-title"><span>01</span> TEAM_CORE</h3>
+                <div class="form-grid">
+                    <div class="form-group full-width">
+                        <label for="teamName">TEAM IDENTIFIER (NAME) *</label>
+                        <input type="text" id="teamName" name="teamName" required placeholder="Enter team name">
+                    </div>
+                    <div class="form-group full-width">
+                        <label for="teamIdDisplay">ASSIGNED_MISSION_ID</label>
+                        <input type="text" id="teamIdDisplay" name="teamId" readonly
+                            style="color: var(--neon-green); font-weight: bold; letter-spacing: 2px;">
+                    </div>
+                    <div class="form-group full-width">
+                        <label for="track">MISSION TRACK SELECTION *</label>
+                        <select id="track" name="track" required>
+                            <option value="" disabled selected>Select your domain</option>
+                            <option value="Eco Tech">Eco Tech - Green Sustainability</option>
+                            <option value="Health Tech">Health Tech - Healthcare Innovation</option>
+                            <option value="EdTech">EdTech - Future of Learning</option>
+                            <option value="Clean Energy">Clean Energy - Renewable Systems</option>
+                            <option value="Urban Intelligence">Urban Intelligence - Smart Cities</option>
+                            <option value="Climate Action">Climate Action - Environmental Defense</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Member 1 (Leader) -->
+            <div class="form-section">
+                <h3 class="section-title"><span>02</span> UNIT_LEADER (MEMBER_01)</h3>
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label for="leaderName">FULL NAME *</label>
+                        <input type="text" id="leaderName" name="leaderName" required placeholder="Name of leader">
+                    </div>
+                    <div class="form-group">
+                        <label for="leaderEmail">COMM_LINK (EMAIL) *</label>
+                        <input type="email" id="leaderEmail" name="leaderEmail" required
+                            placeholder="email@address.com">
+                    </div>
+                    <div class="form-group">
+                        <label for="leaderPhone">CONTACT_SIGNAL (PHONE) *</label>
+                        <input type="tel" id="leaderPhone" name="leaderPhone" required
+                            placeholder="WhatsApp reachable number">
+                    </div>
+                    <div class="form-group">
+                        <label for="leaderCollege">INSTITUTION_BASE (COLLEGE) *</label>
+                        <input type="text" id="leaderCollege" name="leaderCollege" required
+                            placeholder="University / College Name">
+                    </div>
+                    <div class="form-group">
+                        <label for="leaderDept">DEPARTMENT *</label>
+                        <input type="text" id="leaderDept" name="leaderDept" required placeholder="e.g. CSE, ECE">
+                    </div>
+                    <div class="form-group">
+                        <label for="leaderYear">YEAR *</label>
+                        <select id="leaderYear" name="leaderYear" required>
+                            <option value="" disabled selected>Select Year</option>
+                            <option value="1">1st Year</option>
+                            <option value="2">2nd Year</option>
+                            <option value="3">3rd Year</option>
+                            <option value="4">4th Year</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Member 2 -->
+            <div class="form-section">
+                <h3 class="section-title"><span>03</span> OPERATIVE_02 (MEMBER_02)</h3>
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label for="member2Name">FULL NAME *</label>
+                        <input type="text" id="member2Name" name="member2Name" required placeholder="Member 2 name">
+                    </div>
+                    <div class="form-group">
+                        <label for="member2Phone">CONTACT_SIGNAL (PHONE) *</label>
+                        <input type="tel" id="member2Phone" name="member2Phone" required placeholder="WhatsApp number">
+                    </div>
+                    <div class="form-group">
+                        <label for="member2Dept">DEPARTMENT *</label>
+                        <input type="text" id="member2Dept" name="member2Dept" required placeholder="e.g. CSE, ECE">
+                    </div>
+                    <div class="form-group">
+                        <label for="member2Year">YEAR *</label>
+                        <select id="member2Year" name="member2Year" required>
+                            <option value="" disabled selected>Select Year</option>
+                            <option value="1">1st Year</option>
+                            <option value="2">2nd Year</option>
+                            <option value="3">3rd Year</option>
+                            <option value="4">4th Year</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Member 3 -->
+            <div class="form-section">
+                <h3 class="section-title"><span>04</span> OPERATIVE_03 (MEMBER_03)</h3>
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label for="member3Name">FULL NAME *</label>
+                        <input type="text" id="member3Name" name="member3Name" required placeholder="Member 3 name">
+                    </div>
+                    <div class="form-group">
+                        <label for="member3Phone">CONTACT_SIGNAL (PHONE) *</label>
+                        <input type="tel" id="member3Phone" name="member3Phone" required placeholder="WhatsApp number">
+                    </div>
+                    <div class="form-group">
+                        <label for="member3Dept">DEPARTMENT *</label>
+                        <input type="text" id="member3Dept" name="member3Dept" required placeholder="e.g. CSE, ECE">
+                    </div>
+                    <div class="form-group">
+                        <label for="member3Year">YEAR *</label>
+                        <select id="member3Year" name="member3Year" required>
+                            <option value="" disabled selected>Select Year</option>
+                            <option value="1">1st Year</option>
+                            <option value="2">2nd Year</option>
+                            <option value="3">3rd Year</option>
+                            <option value="4">4th Year</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <!-- PPT Upload -->
+            <div class="form-section">
+                <h3 class="section-title"><span>05</span> MISSION_BLUEPRINT (PPT/PDF)</h3>
+                <p style="font-size: 0.75rem; opacity: 0.6; margin-bottom: 20px; font-family: var(--font-body);">Upload
+                    your initial project proposal. Accepted formats: .ppt, .pptx, .pdf (Max 10MB).</p>
+                <div class="file-upload-wrapper" id="drop-area">
+                    <i id="upload-icon">📂</i>
+                    <p id="upload-text">Click to transmit or drag blueprint onto sector</p>
+                    <input type="file" id="pptFile" name="pptFile" accept=".ppt,.pptx,.pdf" style="display: none;"
+                        required>
+                    <div id="file-name-display">NO_FILE_DETECTED</div>
+                </div>
+            </div>
+
+            <div class="submit-container">
+                <button type="submit" id="submit-btn" class="btn btn-glow btn-submit">
+                    <span id="btn-text">DEVISE_REGISTRATION</span>
+                </button>
+                <div id="status-message"></div>
+            </div>
+        </form>
+    </div>
+
+    <script src="registration.js"></script>
+    <script>
+        // File handling UI logic
+        const dropArea = document.getElementById('drop-area');
+        const fileInput = document.getElementById('pptFile');
+        const fileNameDisplay = document.getElementById('file-name-display');
+        const uploadIcon = document.getElementById('upload-icon');
+
+        dropArea.addEventListener('click', () => fileInput.click());
+
+        fileInput.addEventListener('change', (e) => {
+            updateFileName(e.target.files[0]);
+        });
+
+        dropArea.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            dropArea.style.borderColor = 'var(--neon-green)';
+            dropArea.style.background = 'rgba(0, 255, 136, 0.1)';
+        });
+
+        dropArea.addEventListener('dragleave', () => {
+            dropArea.style.borderColor = 'rgba(0, 255, 136, 0.2)';
+            dropArea.style.background = 'rgba(0, 255, 136, 0.02)';
+        });
+
+        dropArea.addEventListener('drop', (e) => {
+            e.preventDefault();
+            const files = e.dataTransfer.files;
+            if (files.length) {
+                fileInput.files = files;
+                updateFileName(files[0]);
+            }
+            dropArea.style.borderColor = 'rgba(0, 255, 136, 0.2)';
+            dropArea.style.background = 'rgba(0, 255, 136, 0.02)';
+        });
+
+        function updateFileName(file) {
+            if (file) {
+                fileNameDisplay.textContent = `UPLOAD_READY: ${file.name.toUpperCase()}`;
+                uploadIcon.textContent = '✅';
+                gsap.from(fileNameDisplay, { opacity: 0, y: 5, duration: 0.3 });
+            } else {
+                fileNameDisplay.textContent = 'NO_FILE_DETECTED';
+                uploadIcon.textContent = '📂';
+            }
+        }
+
+        // Initialize background effects (simplified version of main.js to match)
+        document.addEventListener('DOMContentLoaded', () => {
+            setTimeout(() => {
+                document.body.classList.remove('loading');
+            }, 500);
+
+            // Custom Cursor
+            const cursor = document.querySelector('.custom-cursor');
+            const cursorGlow = document.querySelector('.cursor-glow');
+
+            if (cursor && cursorGlow) {
+                document.addEventListener('mousemove', (e) => {
+                    gsap.to(cursor, { x: e.clientX, y: e.clientY, duration: 0.1 });
+                    gsap.to(cursorGlow, { x: e.clientX, y: e.clientY, duration: 0.5 });
+                });
+            }
+
+            // Neural Network Background
+            const canvas = document.getElementById('neural-canvas');
+            if (canvas) {
+                const ctx = canvas.getContext('2d');
+                let particles = [];
+
+                function init() {
+                    canvas.width = window.innerWidth;
+                    canvas.height = window.innerHeight;
+                    particles = [];
+                    for (let i = 0; i < 50; i++) {
+                        particles.push({
+                            x: Math.random() * canvas.width,
+                            y: Math.random() * canvas.height,
+                            size: Math.random() * 2 + 0.5,
+                            speedX: Math.random() * 0.4 - 0.2,
+                            speedY: Math.random() * 0.4 - 0.2
+                        });
+                    }
+                }
+
+                function animate() {
+                    ctx.clearRect(0, 0, canvas.width, canvas.height);
+                    ctx.fillStyle = 'rgba(0, 255, 136, 0.5)';
+                    particles.forEach(p => {
+                        p.x += p.speedX;
+                        p.y += p.speedY;
+                        if (p.x > canvas.width) p.x = 0;
+                        if (p.x < 0) p.x = canvas.width;
+                        if (p.y > canvas.height) p.y = 0;
+                        if (p.y < 0) p.y = canvas.height;
+                        ctx.beginPath();
+                        ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+                        ctx.fill();
+                    });
+                    requestAnimationFrame(animate);
+                }
+                init();
+                animate();
+                window.addEventListener('resize', init);
+            }
+        });
+    </script>
+</body>
+
+</html>
