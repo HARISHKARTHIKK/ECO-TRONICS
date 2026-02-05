@@ -403,6 +403,42 @@
             box-shadow: 0 0 20px var(--neon-green);
             transform: translateY(-2px);
         }
+
+        /* Instruction Card Styles */
+        .instructions-card {
+            background: rgba(0, 255, 136, 0.05) !important;
+            border: 1px dashed rgba(0, 255, 136, 0.3) !important;
+        }
+
+        .instruction-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .instruction-list li {
+            font-family: var(--font-body);
+            font-size: 0.9rem;
+            color: var(--text-white);
+            opacity: 0.8;
+            margin-bottom: 12px;
+            padding-left: 25px;
+            position: relative;
+        }
+
+        .instruction-list li::before {
+            content: '>>';
+            position: absolute;
+            left: 0;
+            color: var(--neon-green);
+            font-family: var(--font-sub);
+            font-weight: bold;
+        }
+
+        .instruction-list strong {
+            color: var(--neon-green);
+            text-shadow: 0 0 5px rgba(0, 255, 136, 0.3);
+        }
     </style>
 </head>
 
@@ -438,6 +474,20 @@
         <div class="modern-header mb-large text-center">
             <h2 class="title-glow">MISSION_ONBOARDING</h2>
             <p class="sub-title">SEQUENCE: INITIALIZE_TEAM_DATA // 2026.HACK</p>
+        </div>
+
+        <!-- Instruction Card -->
+        <div class="form-section instructions-card">
+            <h3 class="section-title"><span>?</span> MISSION_INSTRUCTIONS</h3>
+            <ul class="instruction-list">
+                <li>Complete all mandatory fields in the registration form below.</li>
+                <li>Upload your project blueprint (PPT/PDF) - Naming format: <strong>TEAM_NAME.pdf</strong>.</li>
+                <li>Registration Fee: <strong>₹300 per team</strong>.</li>
+                <li>After submission, you will be redirected to the <strong>Official College Payment Portal</strong>.
+                </li>
+                <li>Once payment is successful, you will be returned here to receive your <strong>Final Mission
+                        ID</strong>.</li>
+            </ul>
         </div>
 
         <form id="registration-form">
@@ -579,7 +629,7 @@
                 </div>
             </div>
 
-           
+
             <!-- PPT Upload -->
             <div class="form-section">
                 <h3 class="section-title"><span>06</span> MISSION_BLUEPRINT (PPT/PDF)</h3>

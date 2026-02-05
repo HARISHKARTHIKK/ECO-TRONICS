@@ -20,7 +20,24 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (!registrationForm) return;
 
-    // --- 0. Sequential Team ID Logic ---
+    // --- 0. Check for Return from Payment ---
+    const urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.get('payment') === 'success') {
+        const teamId = urlParams.get('id');
+        if (teamId) {
+            // Update modal with the ID from URL
+            const finalIdTag = document.getElementById('final-team-id');
+            if (finalIdTag) finalIdTag.textContent = teamId;
+
+            // Show Modal
+            if (successModal) successModal.style.display = 'flex';
+
+            // Clean up URL without refreshing
+            window.history.replaceState({}, document.title, window.location.pathname);
+        }
+    }
+
+    // --- 1. Sequential Team ID Logic ---
     let currentTeamID = "101";
 
     const fetchNextTeamID = async () => {
@@ -161,17 +178,22 @@ document.addEventListener('DOMContentLoaded', () => {
 
             if (insertError) throw new Error(`DATABASE_FAILURE: ${insertError.message}`);
 
-            // --- 5. Success Flow ---
-            // Update modal with the ID
-            const finalIdTag = document.getElementById('final-team-id');
-            if (finalIdTag) finalIdTag.textContent = currentTeamID;
+            // --- 5. Payment Redirection ---
+            // Update UI to let user know redirect is happening
+            btnText.innerHTML = '<span class="loader-spinner"></span>REDIRECTING_TO_PAYMENT...';
 
-            // Show Modal
-            if (successModal) successModal.style.display = 'flex';
+            // Define the official college payment page URL (placeholder - USER should update)
+            // We pass the currentTeamID so it can be returned back
+            const paymentBaseURL = "https://www.srmist.edu.in/payment-portal"; // PLACEHOLDER
+            const returnURL = encodeURIComponent(`${window.location.origin}${window.location.pathname}?payment=success&id=${currentTeamID}`);
+
+            // Redirect after a short delay for smooth transition
+            setTimeout(() => {
+                window.location.href = `${paymentBaseURL}?amount=300&team_id=${currentTeamID}&redirect=${returnURL}`;
+            }, 1500);
 
             registrationForm.reset();
-            // Fetch next ID for the next registration sequence
-            fetchNextTeamID();
+            // fetchNextTeamID(); // No need to fetch next ID if we're redirecting away
 
         } catch (error) {
             console.error('Registration Error:', error);
@@ -214,7 +236,7 @@ document.addEventListener('DOMContentLoaded', () => {
             submitBtn.style.cursor = 'wait';
         } else {
             submitBtn.disabled = false;
-            btnText.innerHTML = 'DEVISE_REGISTRATION';
+            btnText.innerHTML = 'INITIATE MISSION';
             submitBtn.style.opacity = '1';
             submitBtn.style.cursor = 'pointer';
         }
