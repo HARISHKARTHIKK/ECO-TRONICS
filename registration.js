@@ -178,19 +178,40 @@ document.addEventListener('DOMContentLoaded', () => {
 
             if (insertError) throw new Error(`DATABASE_FAILURE: ${insertError.message}`);
 
-            // --- 5. Payment Redirection ---
-            // Update UI to let user know redirect is happening
-            btnText.innerHTML = '<span class="loader-spinner"></span>REDIRECTING_TO_PAYMENT...';
+            // --- 5. Payment Redirection (Method 1: Direct API Call) ---
+            btnText.innerHTML = '<span class="loader-spinner"></span>INITIATING_PAYMENT_SECURELY...';
 
-            // Define the official college payment page URL (placeholder - USER should update)
-            // We pass the currentTeamID so it can be returned back
-            const paymentBaseURL = "https://www.srmist.edu.in/payment-portal"; // PLACEHOLDER
-            const returnURL = encodeURIComponent(`${window.location.origin}${window.location.pathname}?payment=success&id=${currentTeamID}`);
+            const paymentData = {
+                orderId: `ECO-2026-${currentTeamID}`,
+                amount: "300",
+                teamName: formData.get('teamName'),
+                email: formData.get('leaderEmail'),
+                phone: formData.get('leaderPhone'),
+                registrationId: currentTeamID,
+                trackType: formData.get('track'),
+                successUrl: `${window.location.origin}${window.location.pathname}?payment=success&id=${currentTeamID}`,
+                failureUrl: `${window.location.origin}${window.location.pathname}?payment=failure`,
+                cancelUrl: `${window.location.origin}${window.location.pathname}?payment=cancel`
+            };
 
-            // Redirect after a short delay for smooth transition
-            setTimeout(() => {
-                window.location.href = `${paymentBaseURL}?amount=300&team_id=${currentTeamID}&redirect=${returnURL}`;
-            }, 1500);
+            const response = await fetch('https://texus.io/api/ecotronics/create-payment', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(paymentData)
+            });
+
+            const result = await response.json();
+
+            if (result.success) {
+                // Redirect user to payment page after a short delay for transition
+                setTimeout(() => {
+                    window.location.href = result.paymentUrl;
+                }, 1000);
+            } else {
+                throw new Error(`PAYMENT_INITIATION_FAILED: ${result.error}`);
+            }
 
             registrationForm.reset();
             // fetchNextTeamID(); // No need to fetch next ID if we're redirecting away
