@@ -22,19 +22,56 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // --- 0. Check for Return from Payment ---
     const urlParams = new URLSearchParams(window.location.search);
-    if (urlParams.get('payment') === 'success') {
-        const teamId = urlParams.get('id');
-        if (teamId) {
-            // Update modal with the ID from URL
-            const finalIdTag = document.getElementById('final-team-id');
-            if (finalIdTag) finalIdTag.textContent = teamId;
+    const paymentStatus = urlParams.get('payment');
+    const teamIdFromUrl = urlParams.get('id');
 
-            // Show Modal
-            if (successModal) successModal.style.display = 'flex';
+    if (paymentStatus === 'success' && teamIdFromUrl) {
+        setLoading(true);
+        const handleSuccessfulPayment = async () => {
+            try {
+                // Retrieve data from sessionStorage
+                const savedData = JSON.parse(sessionStorage.getItem(`reg_data_${teamIdFromUrl}`));
 
-            // Clean up URL without refreshing
-            window.history.replaceState({}, document.title, window.location.pathname);
-        }
+                if (!savedData) {
+                    throw new Error("Registration data not found in session. Please contact support if you have paid.");
+                }
+
+                // --- Perform Final Database Insertion ---
+                const { error: insertError } = await supabaseClient
+                    .from('registrations')
+                    .insert([savedData]);
+
+                if (insertError) throw new Error(`DATABASE_FAILURE: ${insertError.message}`);
+
+                // Clear session data
+                sessionStorage.removeItem(`reg_data_${teamIdFromUrl}`);
+
+                // Update modal with the ID
+                const finalIdTag = document.getElementById('final-team-id');
+                if (finalIdTag) finalIdTag.textContent = teamIdFromUrl;
+
+                // Show Modal
+                if (successModal) successModal.style.display = 'flex';
+
+                // Clean up URL without refreshing
+                window.history.replaceState({}, document.title, window.location.pathname);
+
+                showMessage('Registration completed and synchronized successfully!', 'success');
+
+            } catch (error) {
+                console.error('Finalization Error:', error);
+                showMessage(`FINALIZATION_ERROR: ${error.message}`, 'error');
+            } finally {
+                setLoading(false);
+            }
+        };
+        handleSuccessfulPayment();
+    } else if (paymentStatus === 'failure') {
+        showMessage('Payment failed. Please try again or contact support.', 'error');
+        window.history.replaceState({}, document.title, window.location.pathname);
+    } else if (paymentStatus === 'cancel') {
+        showMessage('Payment was cancelled. Your registration is not yet complete.', 'error');
+        window.history.replaceState({}, document.title, window.location.pathname);
     }
 
     // --- 1. Sequential Team ID Logic ---
@@ -144,74 +181,64 @@ document.addEventListener('DOMContentLoaded', () => {
 
             const pptUrl = urlData.publicUrl;
 
-            // --- 4. Insert Team Data into Database ---
-            const { error: insertError } = await supabaseClient
-                .from('registrations')
-                .insert([{
-                    team_id: currentTeamID,
-                    team_name: formData.get('teamName'),
-                    track: formData.get('track'),
-                    leader_name: formData.get('leaderName'),
-                    leader_email: formData.get('leaderEmail'),
-                    leader_phone: formData.get('leaderPhone'),
-                    leader_college: formData.get('leaderCollege'),
-                    leader_dept: formData.get('leaderDept'),
-                    leader_year: formData.get('leaderYear'),
-                    member2_name: formData.get('member2Name'),
-                    member2_email: formData.get('member2Email'),
-                    member2_phone: formData.get('member2Phone'),
-                    member2_dept: formData.get('member2Dept'),
-                    member2_year: formData.get('member2Year'),
-                    member3_name: formData.get('member3Name') || null,
-                    member3_email: formData.get('member3Email') || null,
-                    member3_phone: formData.get('member3Phone') || null,
-                    member3_dept: formData.get('member3Dept') || null,
-                    member3_year: formData.get('member3Year') || null,
-                    member4_name: formData.get('member4Name') || null,
-                    member4_email: formData.get('member4Email') || null,
-                    member4_phone: formData.get('member4Phone') || null,
-                    member4_dept: formData.get('member4Dept') || null,
-                    member4_year: formData.get('member4Year') || null,
-                    ppt_url: pptUrl,
-                    created_at: new Date()
-                }]);
+            // --- 4. Prepare Team Data for Session Storage ---
+            // Instead of inserting now, we store it to insert AFTER successful payment
+            const registrationData = {
+                team_id: currentTeamID,
+                team_name: formData.get('teamName'),
+                track: formData.get('track'),
+                leader_name: formData.get('leaderName'),
+                leader_email: formData.get('leaderEmail'),
+                leader_phone: formData.get('leaderPhone'),
+                leader_college: formData.get('leaderCollege'),
+                leader_dept: formData.get('leaderDept'),
+                leader_year: formData.get('leaderYear'),
+                member2_name: formData.get('member2Name'),
+                member2_email: formData.get('member2Email'),
+                member2_phone: formData.get('member2Phone'),
+                member2_dept: formData.get('member2Dept'),
+                member2_year: formData.get('member2Year'),
+                member3_name: formData.get('member3Name') || null,
+                member3_email: formData.get('member3Email') || null,
+                member3_phone: formData.get('member3Phone') || null,
+                member3_dept: formData.get('member3Dept') || null,
+                member3_year: formData.get('member3Year') || null,
+                member4_name: formData.get('member4Name') || null,
+                member4_email: formData.get('member4Email') || null,
+                member4_phone: formData.get('member4Phone') || null,
+                member4_dept: formData.get('member4Dept') || null,
+                member4_year: formData.get('member4Year') || null,
+                ppt_url: pptUrl,
+                created_at: new Date()
+            };
 
-            if (insertError) throw new Error(`DATABASE_FAILURE: ${insertError.message}`);
+            // Save to sessionStorage (valid during this browser session)
+            sessionStorage.setItem(`reg_data_${currentTeamID}`, JSON.stringify(registrationData));
 
-            // --- 5. Payment Redirection (Method 1: Direct API Call) ---
-            btnText.innerHTML = '<span class="loader-spinner"></span>INITIATING_PAYMENT_SECURELY...';
+            // --- 5. Payment Redirection (Method 2: Direct URL Redirect) ---
+            // We switch to Method 2 because Method 1 (Fetch) is being blocked by CORS 
+            // on localhost/different origins. Method 2 is CORS-proof as it uses a browser redirect.
+            btnText.innerHTML = '<span class="loader-spinner"></span>REDIRECTING_TO_PAYMENT...';
 
-            const paymentData = {
+            const baseUrl = 'https://texus.io/ecotronics-payment';
+
+            const params = new URLSearchParams({
                 orderId: `ECO-2026-${currentTeamID}`,
                 amount: "300",
-                teamName: formData.get('teamName'),
-                email: formData.get('leaderEmail'),
-                phone: formData.get('leaderPhone'),
+                teamName: registrationData.team_name,
+                email: registrationData.leader_email,
+                phone: registrationData.leader_phone,
                 registrationId: currentTeamID,
-                trackType: formData.get('track'),
+                trackType: registrationData.track,
                 successUrl: `${window.location.origin}${window.location.pathname}?payment=success&id=${currentTeamID}`,
                 failureUrl: `${window.location.origin}${window.location.pathname}?payment=failure`,
                 cancelUrl: `${window.location.origin}${window.location.pathname}?payment=cancel`
-            };
-
-            const response = await fetch('https://www.texus.io/api/ecotronics/create-payment', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(paymentData)
             });
 
-            const result = await response.json();
-
-            if (result.success) {
-                // Redirect user to payment page after a short delay for transition
-                setTimeout(() => {
-                    window.location.href = result.paymentUrl;
-                }, 1000);
-            } else {
-                throw new Error(`PAYMENT_INITIATION_FAILED: ${result.error}`);
-            }
+            // Redirect after a short delay for smooth transition
+            setTimeout(() => {
+                window.location.href = `${baseUrl}?${params.toString()}`;
+            }, 1000);
 
             registrationForm.reset();
             // fetchNextTeamID(); // No need to fetch next ID if we're redirecting away
