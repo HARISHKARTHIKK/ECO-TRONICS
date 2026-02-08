@@ -194,7 +194,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 cancelUrl: `${window.location.origin}${window.location.pathname}?payment=cancel`
             };
 
-            const response = await fetch('https://texus.io/api/ecotronics/create-payment', {
+            const response = await fetch('https://www.texus.io/api/ecotronics/create-payment', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
