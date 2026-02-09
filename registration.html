@@ -559,6 +559,16 @@
                             <option value="4">4th Year</option>
                         </select>
                     </div>
+                    <div class="form-group">
+                        <label for="leaderParentName">PARENT / GUARDIAN NAME *</label>
+                        <input type="text" id="leaderParentName" name="leaderParentName" required
+                            placeholder="Parent's name">
+                    </div>
+                    <div class="form-group">
+                        <label for="leaderParentPhone">PARENT CONTACT (PHONE) *</label>
+                        <input type="tel" id="leaderParentPhone" name="leaderParentPhone" required
+                            placeholder="Parent's mobile">
+                    </div>
                 </div>
             </div>
 
@@ -593,6 +603,16 @@
                             <option value="4">4th Year</option>
                         </select>
                     </div>
+                    <div class="form-group">
+                        <label for="member2ParentName">PARENT / GUARDIAN NAME *</label>
+                        <input type="text" id="member2ParentName" name="member2ParentName" required
+                            placeholder="Parent's name">
+                    </div>
+                    <div class="form-group">
+                        <label for="member2ParentPhone">PARENT CONTACT (PHONE) *</label>
+                        <input type="tel" id="member2ParentPhone" name="member2ParentPhone" required
+                            placeholder="Parent's mobile">
+                    </div>
                 </div>
             </div>
 
@@ -601,24 +621,25 @@
                 <h3 class="section-title"><span>04</span> OPERATIVE_03 (MEMBER_03)</h3>
                 <div class="form-grid">
                     <div class="form-group">
-                        <label for="member3Name">FULL NAME</label>
-                        <input type="text" id="member3Name" name="member3Name" placeholder="Member 3 name (optional)">
+                        <label for="member3Name">FULL NAME *</label>
+                        <input type="text" id="member3Name" name="member3Name" required placeholder="Member 3 name">
                     </div>
                     <div class="form-group">
-                        <label for="member3Email">COMM_LINK (EMAIL)</label>
-                        <input type="email" id="member3Email" name="member3Email" placeholder="member3@email.com">
+                        <label for="member3Email">COMM_LINK (EMAIL) *</label>
+                        <input type="email" id="member3Email" name="member3Email" required
+                            placeholder="member3@email.com">
                     </div>
                     <div class="form-group">
-                        <label for="member3Phone">CONTACT_SIGNAL (PHONE)</label>
-                        <input type="tel" id="member3Phone" name="member3Phone" placeholder="WhatsApp number">
+                        <label for="member3Phone">CONTACT_SIGNAL (PHONE) *</label>
+                        <input type="tel" id="member3Phone" name="member3Phone" required placeholder="WhatsApp number">
                     </div>
                     <div class="form-group">
-                        <label for="member3Dept">DEPARTMENT</label>
-                        <input type="text" id="member3Dept" name="member3Dept" placeholder="Department">
+                        <label for="member3Dept">DEPARTMENT *</label>
+                        <input type="text" id="member3Dept" name="member3Dept" required placeholder="Department">
                     </div>
                     <div class="form-group">
-                        <label for="member3Year">YEAR</label>
-                        <select id="member3Year" name="member3Year">
+                        <label for="member3Year">YEAR *</label>
+                        <select id="member3Year" name="member3Year" required>
                             <option value="" disabled selected>Select Year</option>
                             <option value="1">1st Year</option>
                             <option value="2">2nd Year</option>
@@ -626,13 +647,22 @@
                             <option value="4">4th Year</option>
                         </select>
                     </div>
+                    <div class="form-group">
+                        <label for="member3ParentName">PARENT / GUARDIAN NAME *</label>
+                        <input type="text" id="member3ParentName" name="member3ParentName" required
+                            placeholder="Parent's name">
+                    </div>
+                    <div class="form-group">
+                        <label for="member3ParentPhone">PARENT CONTACT (PHONE) *</label>
+                        <input type="tel" id="member3ParentPhone" name="member3ParentPhone" required
+                            placeholder="Parent's mobile">
+                    </div>
                 </div>
             </div>
 
-
             <!-- PPT Upload -->
             <div class="form-section">
-                <h3 class="section-title"><span>06</span> MISSION_BLUEPRINT (PPT/PDF)</h3>
+                <h3 class="section-title"><span>05</span> MISSION_BLUEPRINT (PPT/PDF)</h3>
                 <p style="font-size: 0.75rem; opacity: 0.6; margin-bottom: 20px; font-family: var(--font-body);">Upload
                     your initial project proposal. Accepted formats: .ppt, .pptx, .pdf (Max 10MB).</p>
                 <p
@@ -643,7 +673,8 @@
                 <div class="file-upload-wrapper" id="drop-area">
                     <i id="upload-icon">📂</i>
                     <p id="upload-text">Click to transmit or drag blueprint onto sector</p>
-                    <input type="file" id="pptFile" name="pptFile" accept=".ppt,.pptx,.pdf" style="display: none;">
+                    <input type="file" id="pptFile" name="pptFile" accept=".ppt,.pptx,.pdf" style="display: none;"
+                        required>
                     <div id="file-name-display">NO_FILE_DETECTED</div>
                 </div>
             </div>
