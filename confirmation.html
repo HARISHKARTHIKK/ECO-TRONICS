@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <link rel="icon" type="image/png" href="/favicon.png" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment Verification | ECO-TRONICS 2026</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Outfit:wght@300;400;500;600;700&family=Syncopate:wght@400;700&display=swap"
+        rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <style>
+        .confirmation-container {
+            padding-top: 140px;
+            padding-bottom: 80px;
+            max-width: 700px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 100;
+        }
+
+        .verification-card {
+            background: rgba(11, 15, 20, 0.4);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(0, 255, 136, 0.2);
+            border-radius: 12px;
+            padding: 40px;
+            text-align: center;
+        }
+
+        .team-badge {
+            display: inline-block;
+            background: rgba(0, 255, 136, 0.1);
+            border: 1px dashed var(--neon-green);
+            padding: 10px 20px;
+            border-radius: 4px;
+            margin: 20px 0;
+            font-family: var(--font-heading);
+            color: var(--neon-green);
+            letter-spacing: 3px;
+        }
+
+        .upload-zone {
+            border: 2px dashed rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            padding: 40px 20px;
+            margin: 30px 0;
+            cursor: pointer;
+            transition: var(--transition);
+            background: rgba(255, 255, 255, 0.02);
+        }
+
+        .upload-zone:hover {
+            border-color: var(--neon-green);
+            background: rgba(0, 255, 136, 0.03);
+        }
+
+        .upload-zone i {
+            font-size: 2.5rem;
+            display: block;
+            margin-bottom: 15px;
+            opacity: 0.5;
+        }
+
+        #screenshot-preview {
+            max-width: 100%;
+            max-height: 300px;
+            border-radius: 4px;
+            margin-top: 20px;
+            display: none;
+            border: 1px solid var(--neon-green);
+        }
+
+        .success-overlay {
+            position: fixed;
+            inset: 0;
+            background: var(--bg-black);
+            z-index: 1000;
+            display: none;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 20px;
+        }
+
+        @media (max-width: 768px) {
+            .confirmation-container {
+                padding-top: 100px;
+                padding-left: 15px;
+                padding-right: 15px;
+            }
+
+            .verification-card {
+                padding: 25px 15px;
+            }
+
+            .title-glow {
+                font-size: 1.2rem !important;
+            }
+        }
+    </style>
+</head>
+
+<body class="loading">
+    <!-- Background Elements -->
+    <div class="bg-grid"></div>
+    <div class="bg-glow"></div>
+    <div class="global-bg-robo"></div>
+    <div class="noise-overlay"></div>
+    <div class="data-particles"></div>
+
+    <nav class="navbar scrolled">
+        <div class="nav-container">
+            <div class="nav-left-logos">
+                <a href="index.html"><img src="srm-logo.png" alt="SRM" class="nav-srm-logo"></a>
+            </div>
+            <div class="nav-right-block">
+                <a href="index.html" class="eco-brand" style="text-decoration: none;">
+                    <span class="eco">ECO</span>-<span class="tronics">TRONICS</span>
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="confirmation-container">
+        <div class="verification-card">
+            <h2 class="title-glow" style="font-size: 1.5rem; margin-bottom: 10px;">PAYMENT_VERIFICATION</h2>
+            <p style="font-family: var(--font-sub); font-size: 0.7rem; color: var(--neon-green); opacity: 0.8;">
+                SESSION_ID: <span id="session-id-display">...</span></p>
+
+            <div class="team-badge">
+                TEAM_ID: <span id="team-id-static">...</span>
+            </div>
+
+            <p style="font-size: 0.9rem; opacity: 0.7; margin: 20px 0;">
+                Transaction detected. To complete your mission deployment, please upload a clear screenshot of your
+                payment confirmation.
+            </p>
+
+            <div class="upload-zone" id="drop-zone">
+                <i id="upload-icon">📸</i>
+                <p id="upload-text" style="font-family: var(--font-sub); font-size: 0.6rem; letter-spacing: 1px;">
+                    CLICK_TO_ATTACH_SCREENSHOT</p>
+                <input type="file" id="screenshotInput" accept="image/*" style="display: none;">
+                <img id="screenshot-preview" alt="Payment Preview">
+            </div>
+
+            <button id="final-submit" class="btn btn-glow" style="width: 100%; padding: 18px;" disabled>
+                FINALIZE_ONBOARDING
+            </button>
+            <div id="status-msg" style="margin-top: 15px; font-size: 0.8rem; font-family: var(--font-sub);"></div>
+        </div>
+    </div>
+
+    <!-- Final Success Layer -->
+    <div class="success-overlay" id="final-success">
+        <div style="font-size: 5rem; margin-bottom: 20px;">✅</div>
+        <h2 class="title-glow">MISSION_DEPLOYED_SUCCESSFULLY</h2>
+        <p style="font-family: var(--font-sub); font-size: 0.8rem; margin: 20px 0; color: var(--neon-green);">ALL
+            SYSTEMS OPERATIONAL // TEAM ID IS <span id="confirmed-id">...</span></p>
+        <p style="max-width: 500px; opacity: 0.7; margin-bottom: 40px;">Your registration and payment verification are
+            complete. A confirmation email with further mission intelligence will be transmitted shortly.</p>
+        <a href="index.html" class="btn btn-glow">RETURN_TO_BASE</a>
+    </div>
+
+    <script src="confirmation.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            setTimeout(() => document.body.classList.remove('loading'), 500);
+        });
+    </script>
+</body>
+
+</html>

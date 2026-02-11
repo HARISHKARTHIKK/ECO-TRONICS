@@ -26,50 +26,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const teamIdFromUrl = urlParams.get('id');
 
     if (paymentStatus === 'success' && teamIdFromUrl) {
-        setLoading(true);
-        const handleSuccessfulPayment = async () => {
-            try {
-                // Retrieve data from sessionStorage
-                const savedData = JSON.parse(sessionStorage.getItem(`reg_data_${teamIdFromUrl}`));
-
-                if (!savedData) {
-                    throw new Error("Registration data not found in session. Please contact support if you have paid.");
-                }
-
-                // --- Perform Final Database Insertion (Sync check) ---
-                // Data is now inserted on initial submission for reliability.
-                // We perform an insert and ignore duplicate key errors if it was already synced.
-                const { error: insertError } = await supabaseClient
-                    .from('registrations')
-                    .insert([savedData]);
-
-                if (insertError && !insertError.message.includes("duplicate key")) {
-                    throw new Error(`DATABASE_FAILURE: ${insertError.message}`);
-                }
-
-                // Clear session data
-                sessionStorage.removeItem(`reg_data_${teamIdFromUrl}`);
-
-                // Update modal with the ID
-                const finalIdTag = document.getElementById('final-team-id');
-                if (finalIdTag) finalIdTag.textContent = teamIdFromUrl;
-
-                // Show Modal
-                if (successModal) successModal.style.display = 'flex';
-
-                // Clean up URL without refreshing
-                window.history.replaceState({}, document.title, window.location.pathname);
-
-                showMessage('Registration completed and synchronized successfully!', 'success');
-
-            } catch (error) {
-                console.error('Finalization Error:', error);
-                showMessage(`FINALIZATION_ERROR: ${error.message}`, 'error');
-            } finally {
-                setLoading(false);
-            }
-        };
-        handleSuccessfulPayment();
+        // Redirect to the new Confirmation Portal if they land here with success
+        window.location.href = `confirmation.html?payment=success&id=${teamIdFromUrl}`;
+        return;
     } else if (paymentStatus === 'failure') {
         showMessage('Payment failed. Please try again or contact support.', 'error');
         window.history.replaceState({}, document.title, window.location.pathname);
@@ -246,7 +205,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 phone: registrationData.leader_phone,
                 registrationId: currentTeamID,
                 trackType: registrationData.track,
-                successUrl: `${window.location.origin}${window.location.pathname}?payment=success&id=${currentTeamID}`,
+                successUrl: `${window.location.origin}${window.location.pathname.replace('registration.html', 'confirmation.html')}?payment=success&id=${currentTeamID}`,
                 failureUrl: `${window.location.origin}${window.location.pathname}?payment=failure`,
                 cancelUrl: `${window.location.origin}${window.location.pathname}?payment=cancel`
             });

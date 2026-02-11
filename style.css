@@ -244,6 +244,30 @@ body.loading {
     }
 }
 
+@keyframes pulse-neon {
+    0% {
+        transform: scale(1);
+        filter: drop-shadow(0 0 5px var(--neon-green));
+    }
+
+    50% {
+        transform: scale(1.1);
+        filter: drop-shadow(0 0 15px var(--neon-green));
+    }
+
+    100% {
+        transform: scale(1);
+        filter: drop-shadow(0 0 5px var(--neon-green));
+    }
+}
+
+.payment-notice {
+    background: rgba(0, 255, 136, 0.05) !important;
+    border: 1px dashed var(--neon-green) !important;
+    margin-top: 20px;
+    padding: 25px !important;
+}
+
 .loader-status {
     margin-top: 1rem;
     font-family: var(--font-sub);
