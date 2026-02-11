@@ -36,12 +36,16 @@ document.addEventListener('DOMContentLoaded', () => {
                     throw new Error("Registration data not found in session. Please contact support if you have paid.");
                 }
 
-                // --- Perform Final Database Insertion ---
+                // --- Perform Final Database Insertion (Sync check) ---
+                // Data is now inserted on initial submission for reliability.
+                // We perform an insert and ignore duplicate key errors if it was already synced.
                 const { error: insertError } = await supabaseClient
                     .from('registrations')
                     .insert([savedData]);
 
-                if (insertError) throw new Error(`DATABASE_FAILURE: ${insertError.message}`);
+                if (insertError && !insertError.message.includes("duplicate key")) {
+                    throw new Error(`DATABASE_FAILURE: ${insertError.message}`);
+                }
 
                 // Clear session data
                 sessionStorage.removeItem(`reg_data_${teamIdFromUrl}`);
@@ -181,8 +185,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             const pptUrl = urlData.publicUrl;
 
-            // --- 4. Prepare Team Data for Session Storage ---
-            // Instead of inserting now, we store it to insert AFTER successful payment
+            // --- 4. Prepare Team Data ---
             const registrationData = {
                 team_id: currentTeamID,
                 team_name: formData.get('teamName'),
@@ -209,16 +212,23 @@ document.addEventListener('DOMContentLoaded', () => {
                 member3_year: formData.get('member3Year'),
                 member3_parent_name: formData.get('member3ParentName'),
                 member3_parent_phone: formData.get('member3ParentPhone'),
-                member4_name: formData.get('member4Name') || null,
-                member4_email: formData.get('member4Email') || null,
-                member4_phone: formData.get('member4Phone') || null,
-                member4_dept: formData.get('member4Dept') || null,
-                member4_year: formData.get('member4Year') || null,
                 ppt_url: pptUrl,
                 created_at: new Date()
             };
 
-            // Save to sessionStorage (valid during this browser session)
+            // --- 5. Immediate Database Insertion ---
+            // Ensuring details are in backend BEFORE redirecting to payment
+            btnText.innerHTML = '<span class="loader-spinner"></span>SYNCHRONIZING_DATABASE...';
+            const { error: dbError } = await supabaseClient
+                .from('registrations')
+                .insert([registrationData]);
+
+            if (dbError) {
+                console.error("Database error during submission:", dbError);
+                throw new Error(`DATABASE_FAILURE: ${dbError.message}`);
+            }
+
+            // Save to sessionStorage (valid during this browser session) as a backup
             sessionStorage.setItem(`reg_data_${currentTeamID}`, JSON.stringify(registrationData));
 
             // --- 5. Payment Redirection (Method 2: Direct URL Redirect) ---
