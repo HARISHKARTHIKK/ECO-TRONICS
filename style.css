@@ -1577,6 +1577,21 @@ body.loading {
         font-size: 2rem;
         margin-bottom: 3rem;
     }
+
+    .date-badge {
+        font-size: 0.85rem;
+        padding: 0.8rem 1.2rem;
+        letter-spacing: 1px;
+        width: auto;
+        max-width: 90vw;
+        line-height: 1.4;
+        display: inline-block;
+    }
+
+    .tracks-grid {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
 }
 
 /* Gallery Styling */
