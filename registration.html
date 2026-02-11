@@ -496,6 +496,56 @@
         .download-btn span.icon {
             font-size: 1.2rem;
         }
+
+        .rules-onboarding-card {
+            background: rgba(11, 15, 20, 0.4) !important;
+            border: 1px solid rgba(255, 255, 255, 0.1) !important;
+            margin-bottom: 40px;
+        }
+
+        .rules-grid-mini {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 25px;
+            margin-top: 25px;
+        }
+
+        @media (max-width: 768px) {
+            .rules-grid-mini {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .rule-item-mini {
+            padding-left: 20px;
+            border-left: 2px solid var(--neon-green);
+            background: rgba(0, 255, 136, 0.02);
+            padding-top: 10px;
+            padding-bottom: 15px;
+            border-radius: 0 4px 4px 0;
+        }
+
+        .rule-item-mini h4 {
+            font-family: var(--font-sub);
+            font-size: 0.75rem;
+            color: var(--neon-green);
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .rule-item-mini p,
+        .rule-item-mini ul {
+            font-size: 0.8rem;
+            opacity: 0.8;
+            line-height: 1.6;
+            color: var(--text-white);
+        }
+
+        .rule-item-mini ul {
+            padding-left: 15px;
+            margin: 0;
+        }
     </style>
 </head>
 
@@ -519,9 +569,17 @@
                 <a href="index.html"><img src="srm-logo.png" alt="SRM" class="nav-srm-logo"></a>
             </div>
 
-            <div class="nav-right-block">
+            <div class="nav-right-block" style="display: flex; align-items: center; gap: 25px;">
                 <a href="index.html" class="eco-brand" style="text-decoration: none;">
                     <span class="eco">ECO</span>-<span class="tronics">TRONICS</span>
+                </a>
+                <a href="index.html#instagram" class="insta-link"
+                    style="color: var(--text-white); opacity: 0.7; transition: var(--transition); display: flex; align-items: center;">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor"
+                        viewBox="0 0 16 16">
+                        <path
+                            d="M8 0C5.829 0 5.556.01 4.703.048 3.85.088 3.269.222 2.76.42a3.9 3.9 0 0 0-1.417.923A3.9 3.9 0 0 0 .42 2.76C.222 3.268.087 3.85.048 4.7.01 5.555 0 5.827 0 8.001c0 2.172.01 2.444.048 3.297.04.852.174 1.433.372 1.942.205.526.478.972.923 1.417.444.445.89.719 1.416.923.51.198 1.09.333 1.942.372C5.555 15.99 5.827 16 8 16s2.444-.01 3.298-.048c.851-.04 1.434-.174 1.943-.372a3.9 3.9 0 0 0 1.416-.923c.445-.445.718-.891.923-1.417.197-.509.332-1.09.372-1.942C15.99 10.445 16 10.173 16 8s-.01-2.445-.048-3.299c-.04-.851-.175-1.433-.372-1.941a3.9 3.9 0 0 0-.923-1.417A3.9 3.9 0 0 0 13.24.42c-.51-.198-1.092-.333-1.943-.372C10.443.01 10.172 0 7.998 0zm-.717 1.442h.718c2.136 0 2.389.007 3.232.046.78.035 1.204.166 1.486.275.373.145.64.319.92.599.28.28.453.546.598.92.11.281.24.705.275 1.485.039.843.047 1.096.047 3.231s-.008 2.389-.047 3.232c-.035.78-.166 1.203-.275 1.485a2.5 2.5 0 0 1-.599.919c-.28.28-.546.453-.92.598-.282.11-.705.24-1.485.276-.843.038-1.096.047-3.232.047s-2.39-.009-3.233-.047c-.78-.036-1.203-.166-1.485-.276a2.5 2.5 0 0 1-.92-.598 2.5 2.5 0 0 1-.6-.92c-.109-.281-.24-.705-.275-1.485-.038-.843-.046-1.096-.046-3.233s.008-2.388.046-3.231c.036-.78.166-1.204.276-1.486.145-.373.319-.64.599-.92s.546-.453.92-.598c.282-.11.705-.24 1.485-.276.738-.034 1.024-.044 2.515-.045zm4.988 1.328a.96.96 0 1 0 0 1.92.96.96 0 0 0 0-1.92m-4.27 1.122a4.109 4.109 0 1 0 0 8.217 4.109 4.109 0 0 0 0-8.217m0 1.441a2.667 2.667 0 1 1 0 5.334 2.667 2.667 0 0 1 0-5.334" />
+                    </svg>
                 </a>
             </div>
         </div>
@@ -556,6 +614,45 @@
                     <span>PPT_TEMPLATE.PPTX</span>
                 </a>
             </div>
+        </div>
+
+        <!-- Hackathon Rules Card -->
+        <div class="form-section rules-onboarding-card">
+            <h3 class="section-title"><span>#</span> HACKATHON_PROTOCOLS</h3>
+            <div class="rules-grid-mini">
+                <div class="rule-item-mini">
+                    <h4>01. Eligibility</h4>
+                    <p>Open exclusively to engineering undergraduate students. Participation is strictly team-based.</p>
+                </div>
+                <div class="rule-item-mini">
+                    <h4>02. Team Formation</h4>
+                    <p>Exactly 3 members per team. All members must complete registration before the deadline. Only one
+                        team per person.</p>
+                </div>
+                <div class="rule-item-mini">
+                    <h4>03. PPT Preparation</h4>
+                    <p>Format: <strong>TEAM_NAME.pdf</strong>. Must cover Problem Statement, Solution, SDG Impact, and
+                        Feasibility.</p>
+                </div>
+                <div class="rule-item-mini">
+                    <h4>04. Hackathon Format</h4>
+                    <p>24-hour continuous physical event. Teams must remain present and build prototypes during the
+                        duration.</p>
+                </div>
+                <div class="rule-item-mini">
+                    <h4>05. Project Rules</h4>
+                    <p>Must be original work built during the mission. Must align with provided SDGs and problem
+                        statements.</p>
+                </div>
+                <div class="rule-item-mini">
+                    <h4>06. Evaluation</h4>
+                    <p>Judged on Innovation, Technical Execution, SDG Impact, Feasibility, and final presentation
+                        quality.</p>
+                </div>
+            </div>
+            <p
+                style="font-size: 0.7rem; color: var(--neon-green); margin-top: 25px; opacity: 0.6; font-family: var(--font-sub);">
+                // FAILURE TO COMPLY WITH PROTOCOLS RESULTS IN IMMEDIATE DISQUALIFICATION.</p>
         </div>
 
         <form id="registration-form">
@@ -776,6 +873,30 @@
         </div>
     </div>
 
+    <footer class="footer" style="padding: 40px 0; border-top: 1px solid var(--glass-border); margin-top: 80px;">
+        <div class="container" style="max-width: 900px; margin: 0 auto; padding: 0 20px;">
+            <div
+                style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 20px;">
+                <div class="console">
+                    <span class="copyright"
+                        style="font-family: var(--font-sub); font-size: 0.6rem; opacity: 0.6; letter-spacing: 1px;">©
+                        2026 ECE SRM RAMAPURAM.</span>
+                </div>
+                <div style="display: flex; align-items: center; gap: 20px;">
+                    <a href="index.html#instagram" class="insta-link"
+                        style="color: var(--text-white); text-decoration: none; display: flex; align-items: center; gap: 8px; opacity: 0.8; transition: var(--transition);">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                            viewBox="0 0 16 16">
+                            <path
+                                d="M8 0C5.829 0 5.556.01 4.703.048 3.85.088 3.269.222 2.76.42a3.9 3.9 0 0 0-1.417.923A3.9 3.9 0 0 0 .42 2.76C.222 3.268.087 3.85.048 4.7.01 5.555 0 5.827 0 8.001c0 2.172.01 2.444.048 3.297.04.852.174 1.433.372 1.942.205.526.478.972.923 1.417.444.445.89.719 1.416.923.51.198 1.09.333 1.942.372C5.555 15.99 5.827 16 8 16s2.444-.01 3.298-.048c.851-.04 1.434-.174 1.943-.372a3.9 3.9 0 0 0 1.416-.923c.445-.445.718-.891.923-1.417.197-.509.332-1.09.372-1.942C15.99 10.445 16 10.173 16 8s-.01-2.445-.048-3.299c-.04-.851-.175-1.433-.372-1.941a3.9 3.9 0 0 0-.923-1.417A3.9 3.9 0 0 0 13.24.42c-.51-.198-1.092-.333-1.943-.372C10.443.01 10.172 0 7.998 0zm-.717 1.442h.718c2.136 0 2.389.007 3.232.046.78.035 1.204.166 1.486.275.373.145.64.319.92.599.28.28.453.546.598.92.11.281.24.705.275 1.485.039.843.047 1.096.047 3.231s-.008 2.389-.047 3.232c-.035.78-.166 1.203-.275 1.485a2.5 2.5 0 0 1-.599.919c-.28.28-.546.453-.92.598-.282.11-.705.24-1.485.276-.843.038-1.096.047-3.232.047s-2.39-.009-3.233-.047c-.78-.036-1.203-.166-1.485-.276a2.5 2.5 0 0 1-.92-.598 2.5 2.5 0 0 1-.6-.92c-.109-.281-.24-.705-.275-1.485-.038-.843-.046-1.096-.046-3.233s.008-2.388.046-3.231c.036-.78.166-1.204.276-1.486.145-.373.319-.64.599-.92s.546-.453.92-.598c.282-.11.705-.24 1.485-.276.738-.034 1.024-.044 2.515-.045zm4.988 1.328a.96.96 0 1 0 0 1.92.96.96 0 0 0 0-1.92m-4.27 1.122a4.109 4.109 0 1 0 0 8.217 4.109 4.109 0 0 0 0-8.217m0 1.441a2.667 2.667 0 1 1 0 5.334 2.667 2.667 0 0 1 0-5.334" />
+                        </svg>
+                        <span
+                            style="font-family: var(--font-sub); font-size: 0.6rem; letter-spacing: 1px;">@ECOTRONICS2K26</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </footer>
     <script src="registration.js"></script>
     <script>
         // File handling UI logic
