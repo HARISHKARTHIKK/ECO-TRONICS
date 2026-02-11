@@ -31,6 +31,26 @@ document.addEventListener('DOMContentLoaded', () => {
     sessionIdDisplay.textContent = `TXN-${Math.random().toString(36).substr(2, 9).toUpperCase()}`;
     confirmedId.textContent = teamId;
 
+    // --- Automatic Data Sync ---
+    // This ensures all team data is in the backend as soon as they return from payment.
+    const syncTeamData = async () => {
+        try {
+            const savedData = JSON.parse(sessionStorage.getItem(`reg_data_${teamId}`));
+            if (savedData) {
+                // Upsert to ensure all details are captured even if the first try failed
+                const { error: syncError } = await supabaseClient
+                    .from('registrations')
+                    .upsert([savedData]);
+
+                if (syncError) console.warn("Background Sync Warning:", syncError.message);
+                else console.log("Team data synchronized successfully.");
+            }
+        } catch (err) {
+            console.warn("Sync error:", err);
+        }
+    };
+    syncTeamData();
+
     // --- File Handling ---
     dropZone.addEventListener('click', () => fileInput.click());
 

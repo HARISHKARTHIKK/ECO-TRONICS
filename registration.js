@@ -175,12 +175,13 @@ document.addEventListener('DOMContentLoaded', () => {
                 created_at: new Date()
             };
 
-            // --- 5. Immediate Database Insertion ---
-            // Ensuring details are in backend BEFORE redirecting to payment
+            // --- 5. Immediate Database Insertion (UPSERT) ---
+            // Ensuring details are in backend BEFORE redirecting to payment.
+            // Using upsert to allow "re-submissions" to update existing records.
             btnText.innerHTML = '<span class="loader-spinner"></span>SYNCHRONIZING_DATABASE...';
             const { error: dbError } = await supabaseClient
                 .from('registrations')
-                .insert([registrationData]);
+                .upsert([registrationData]);
 
             if (dbError) {
                 console.error("Database error during submission:", dbError);
