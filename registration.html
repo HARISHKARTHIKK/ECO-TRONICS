@@ -460,6 +460,42 @@
             color: var(--neon-green);
             text-shadow: 0 0 5px rgba(0, 255, 136, 0.3);
         }
+
+        .download-container {
+            display: flex;
+            gap: 15px;
+            margin-top: 25px;
+            flex-wrap: wrap;
+        }
+
+        .download-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 20px;
+            background: rgba(0, 255, 136, 0.08);
+            border: 1px solid rgba(0, 255, 136, 0.2);
+            border-radius: 4px;
+            color: var(--neon-green);
+            text-decoration: none;
+            font-family: var(--font-sub);
+            font-size: 0.65rem;
+            letter-spacing: 2px;
+            transition: var(--transition);
+            text-transform: uppercase;
+        }
+
+        .download-btn:hover {
+            background: rgba(0, 255, 136, 0.15);
+            border-color: var(--neon-green);
+            box-shadow: 0 0 20px rgba(0, 255, 136, 0.2);
+            transform: translateY(-2px);
+            color: var(--text-white);
+        }
+
+        .download-btn span.icon {
+            font-size: 1.2rem;
+        }
     </style>
 </head>
 
@@ -509,6 +545,17 @@
                 <li>After successful payment, you will receive a confirmation email with your <strong>Team ID & Problem
                         statements</strong>.</li>
             </ul>
+
+            <div class="download-container">
+                <a href="Problem_Statement.pdf" download class="download-btn">
+                    <span class="icon">📄</span>
+                    <span>PROBLEM_STATEMENT.PDF</span>
+                </a>
+                <a href="Sample_Template.pptx" download class="download-btn">
+                    <span class="icon">📊</span>
+                    <span>PPT_TEMPLATE.PPTX</span>
+                </a>
+            </div>
         </div>
 
         <form id="registration-form">
