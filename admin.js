@@ -9,7 +9,7 @@ let allRegistrations = [];
 let filteredRegistrations = [];
 let currentPage = 1;
 const rowsPerPage = 50;
-const ADMIN_PASSWORD = 'admin_ecotronics'; // Simple password for dashboard
+const ADMIN_PASSWORD = 'admin_123'; // Simple password for dashboard
 
 // DOM Elements
 const tableBody = document.getElementById('table-body');
