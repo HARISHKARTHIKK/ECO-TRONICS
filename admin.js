@@ -8,13 +8,16 @@ const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 let allRegistrations = [];
 let filteredRegistrations = [];
 let currentPage = 1;
-const rowsPerPage = 10;
+const rowsPerPage = 50;
 const ADMIN_PASSWORD = 'admin_ecotronics'; // Simple password for dashboard
 
 // DOM Elements
 const tableBody = document.getElementById('table-body');
 const totalCountEl = document.getElementById('total-count');
+const ecoCountEl = document.getElementById('eco-count');
 const healthCountEl = document.getElementById('health-count');
+const edtechCountEl = document.getElementById('edtech-count');
+const cleanCountEl = document.getElementById('clean-count');
 const urbanCountEl = document.getElementById('urban-count');
 const climateCountEl = document.getElementById('climate-count');
 const trackFilter = document.getElementById('track-filter');
@@ -59,7 +62,7 @@ async function fetchRegistrations() {
         const { data, error } = await supabaseClient
             .from('registrations')
             .select('*')
-            .order('created_at', { ascending: false });
+            .order('team_id', { ascending: true });
 
         if (error) throw error;
 
@@ -74,12 +77,18 @@ async function fetchRegistrations() {
 // Update Stats Cards
 function updateStats() {
     const total = allRegistrations.length;
+    const eco = allRegistrations.filter(r => r.track === 'Eco Tech').length;
     const health = allRegistrations.filter(r => r.track === 'Health Tech').length;
+    const edtech = allRegistrations.filter(r => r.track === 'EdTech').length;
+    const clean = allRegistrations.filter(r => r.track === 'Clean Energy').length;
     const urban = allRegistrations.filter(r => r.track === 'Urban Intelligence').length;
     const climate = allRegistrations.filter(r => r.track === 'Climate Action').length;
 
     totalCountEl.textContent = total.toString().padStart(2, '0');
+    ecoCountEl.textContent = eco.toString().padStart(2, '0');
     healthCountEl.textContent = health.toString().padStart(2, '0');
+    edtechCountEl.textContent = edtech.toString().padStart(2, '0');
+    cleanCountEl.textContent = clean.toString().padStart(2, '0');
     urbanCountEl.textContent = urban.toString().padStart(2, '0');
     climateCountEl.textContent = climate.toString().padStart(2, '0');
 }
