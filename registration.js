@@ -181,12 +181,15 @@ document.addEventListener('DOMContentLoaded', () => {
             btnText.innerHTML = '<span class="loader-spinner"></span>SYNCHRONIZING_DATABASE...';
             const { error: dbError } = await supabaseClient
                 .from('registrations')
-                .upsert([registrationData]);
+                .upsert(registrationData, { onConflict: 'team_id' });
 
             if (dbError) {
                 console.error("Database error during submission:", dbError);
                 throw new Error(`DATABASE_FAILURE: ${dbError.message}`);
             }
+
+            // Show success message as requested
+            showMessage("Registration saved successfully", "success");
 
             // Save to sessionStorage (valid during this browser session) as a backup
             sessionStorage.setItem(`reg_data_${currentTeamID}`, JSON.stringify(registrationData));
@@ -214,7 +217,7 @@ document.addEventListener('DOMContentLoaded', () => {
             // Redirect after a short delay for smooth transition
             setTimeout(() => {
                 window.location.href = `${baseUrl}?${params.toString()}`;
-            }, 1000);
+            }, 2000); // Increased slightly so they can see the success message
 
             registrationForm.reset();
             // fetchNextTeamID(); // No need to fetch next ID if we're redirecting away
@@ -255,7 +258,7 @@ document.addEventListener('DOMContentLoaded', () => {
     function setLoading(isLoading) {
         if (isLoading) {
             submitBtn.disabled = true;
-            btnText.innerHTML = '<span class="loader-spinner"></span>SYNCHRONIZING_DATA...';
+            btnText.innerHTML = '<span class="loader-spinner"></span>Submitting...';
             submitBtn.style.opacity = '0.7';
             submitBtn.style.cursor = 'wait';
         } else {
