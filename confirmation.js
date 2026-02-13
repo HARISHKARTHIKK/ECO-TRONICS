@@ -121,23 +121,23 @@ document.addEventListener('DOMContentLoaded', () => {
 
             const screenshotUrl = urlData.publicUrl;
 
-            // 3. Update Database (With fallback logic)
-            let updateError;
+            // 3. Update Database (UUID vs Legacy Team ID update logic)
+            const isUuid = regId.includes('-');
+            const { data: updatedRows, error: updateError } = await supabaseClient
+                .from('registrations')
+                .update({
+                    payment_screenshot_url: screenshotUrl,
+                    payment_status: 'Completed'
+                })
+                .eq(isUuid ? 'id' : 'team_id', regId)
+                .select();
 
-            if (isUUID(regId)) {
-                // Try UUID first
-                const { error } = await supabaseClient
-                    .from('registrations')
-                    .update({ payment_screenshot_url: screenshotUrl })
-                    .eq('id', regId);
-                updateError = error;
-            } else {
-                // Fallback to team_id for legacy
-                const { error } = await supabaseClient
-                    .from('registrations')
-                    .update({ payment_screenshot_url: screenshotUrl })
-                    .eq('team_id', regId);
-                updateError = error;
+            if (!updateError) {
+                if (!updatedRows || updatedRows.length === 0) {
+                    console.warn("Update Warning: Zero rows affected. No matching record found for ID:", regId);
+                } else if (updatedRows.length > 1) {
+                    console.warn(`Update Warning: Multiple rows (${updatedRows.length}) affected. Expected exactly one.`);
+                }
             }
 
             if (updateError) {
