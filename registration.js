@@ -46,8 +46,10 @@ document.addEventListener('DOMContentLoaded', () => {
         const display = document.getElementById('teamIdDisplay');
         const hiddenInput = document.getElementById('teamIdHidden');
         if (display) {
-            display.textContent = id || "ASSIGNING...";
+            display.textContent = id || "Will be assigned after successful payment";
             display.style.opacity = id ? "1" : "0.6";
+            display.style.fontSize = id ? "1.8rem" : "1.2rem";
+            display.style.letterSpacing = id ? "2px" : "1px"; // Reduced spacing for both to ensure fit, but still distinct
         }
         if (hiddenInput) {
             hiddenInput.value = id || "";
