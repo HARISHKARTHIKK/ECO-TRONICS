@@ -114,7 +114,7 @@ function renderTable() {
     tableBody.innerHTML = '';
 
     if (pageData.length === 0) {
-        tableBody.innerHTML = '<tr><td colspan="8" style="text-align: center; opacity: 0.5; padding: 40px;">No registrations found for this sequence.</td></tr>';
+        tableBody.innerHTML = '<tr><td colspan="9" style="text-align: center; opacity: 0.5; padding: 40px;">No registrations found for this sequence.</td></tr>';
     }
 
     pageData.forEach(reg => {
@@ -126,6 +126,7 @@ function renderTable() {
         row.innerHTML = `
             <td>#${reg.team_id}</td>
             <td style="font-weight: 600;">${reg.team_name}</td>
+            <td style="font-size: 0.85rem; color: rgba(255, 255, 255, 0.8);">${reg.leader_college || 'N/A'}</td>
             <td><span class="track-badge">${reg.track}</span></td>
             <td>${reg.leader_name}</td>
             <td style="font-size: 0.8rem; opacity: 0.7;">${reg.leader_email}</td>
