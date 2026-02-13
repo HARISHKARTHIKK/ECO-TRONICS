@@ -7,43 +7,50 @@ const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
 document.addEventListener('DOMContentLoaded', () => {
     const urlParams = new URLSearchParams(window.location.search);
-    const teamId = urlParams.get('id');
-    const paymentStatus = urlParams.get('payment');
+    const isUUID = (str) => /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(str);
+    const regId = urlParams.get('id');
 
-    const teamIdDisplay = document.getElementById('team-id-static');
-    const sessionIdDisplay = document.getElementById('session-id-display');
-    const dropZone = document.getElementById('drop-zone');
-    const fileInput = document.getElementById('screenshotInput');
-    const preview = document.getElementById('screenshot-preview');
-    const uploadIcon = document.getElementById('upload-icon');
-    const uploadText = document.getElementById('upload-text');
-    const finalSubmit = document.getElementById('final-submit');
-    const statusMsg = document.getElementById('status-msg');
-    const finalSuccess = document.getElementById('final-success');
-    const confirmedId = document.getElementById('confirmed-id');
-
-    if (!teamId) {
+    if (!regId) {
         window.location.href = 'registration.html';
         return;
     }
 
-    teamIdDisplay.textContent = teamId;
+    // Set display values. If it's a UUID, we might want to also fetch the team_id for display.
+    teamIdDisplay.textContent = isUUID(regId) ? "VERIFYING..." : regId;
     sessionIdDisplay.textContent = `TXN-${Math.random().toString(36).substr(2, 9).toUpperCase()}`;
-    confirmedId.textContent = teamId;
+    confirmedId.textContent = isUUID(regId) ? "RESERVED" : regId;
 
     // --- Automatic Data Sync ---
-    // This ensures all team data is in the backend as soon as they return from payment.
     const syncTeamData = async () => {
         try {
-            const savedData = JSON.parse(sessionStorage.getItem(`reg_data_${teamId}`));
+            const savedData = JSON.parse(sessionStorage.getItem(`reg_data_${regId}`));
             if (savedData) {
-                // Upsert to ensure all details are captured even if the first try failed
-                const { error: syncError } = await supabaseClient
-                    .from('registrations')
-                    .upsert([savedData]);
+                let query = supabaseClient.from('registrations').upsert([savedData]);
 
-                if (syncError) console.warn("Background Sync Warning:", syncError.message);
-                else console.log("Team data synchronized successfully.");
+                // If we have a UUID, ensure we are targeting by it
+                if (isUUID(regId)) {
+                    console.log("Syncing via UUID...");
+                }
+
+                const { data, error: syncError } = await query.select('team_id').single();
+
+                if (syncError) {
+                    console.warn("Background Sync Warning:", syncError.message);
+                } else if (data && data.team_id) {
+                    teamIdDisplay.textContent = data.team_id;
+                    confirmedId.textContent = data.team_id;
+                }
+            } else if (isUUID(regId)) {
+                // If no saved data, at least fetch the team_id for display
+                const { data } = await supabaseClient
+                    .from('registrations')
+                    .select('team_id')
+                    .eq('id', regId)
+                    .single();
+                if (data) {
+                    teamIdDisplay.textContent = data.team_id;
+                    confirmedId.textContent = data.team_id;
+                }
             }
         } catch (err) {
             console.warn("Sync error:", err);
@@ -52,25 +59,27 @@ document.addEventListener('DOMContentLoaded', () => {
     syncTeamData();
 
     // --- File Handling ---
-    dropZone.addEventListener('click', () => fileInput.click());
+    if (dropZone) dropZone.addEventListener('click', () => fileInput.click());
 
-    fileInput.addEventListener('change', (e) => {
+    if (fileInput) fileInput.addEventListener('change', (e) => {
         handleFile(e.target.files[0]);
     });
 
-    dropZone.addEventListener('dragover', (e) => {
-        e.preventDefault();
-        dropZone.style.borderColor = 'var(--neon-green)';
-    });
+    if (dropZone) {
+        dropZone.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            dropZone.style.borderColor = 'var(--neon-green)';
+        });
 
-    dropZone.addEventListener('dragleave', () => {
-        dropZone.style.borderColor = 'rgba(255, 255, 255, 0.1)';
-    });
+        dropZone.addEventListener('dragleave', () => {
+            dropZone.style.borderColor = 'rgba(255, 255, 255, 0.1)';
+        });
 
-    dropZone.addEventListener('drop', (e) => {
-        e.preventDefault();
-        handleFile(e.dataTransfer.files[0]);
-    });
+        dropZone.addEventListener('drop', (e) => {
+            e.preventDefault();
+            handleFile(e.dataTransfer.files[0]);
+        });
+    }
 
     function handleFile(file) {
         if (file && file.type.startsWith('image/')) {
@@ -86,6 +95,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
+
     // --- Final Submission ---
     finalSubmit.addEventListener('click', async () => {
         const file = fileInput.files[0];
@@ -95,7 +105,7 @@ document.addEventListener('DOMContentLoaded', () => {
         try {
             // 1. Upload Screenshot to Storage
             const fileExt = file.name.split('.').pop();
-            const fileName = `screenshot_${teamId}.${fileExt}`;
+            const fileName = `screenshot_${regId}.${fileExt}`;
             const filePath = `screenshots/${fileName}`;
 
             const { error: uploadError } = await supabaseClient.storage
@@ -111,18 +121,29 @@ document.addEventListener('DOMContentLoaded', () => {
 
             const screenshotUrl = urlData.publicUrl;
 
-            // 3. Update Database (Optionally adding a column or just updating metadata)
-            // Note: If you haven't added payment_screenshot column, this might fail or do nothing
-            // We'll update the 'registrations' record for this team_id
-            const { error: dbError } = await supabaseClient
-                .from('registrations')
-                .update({ payment_screenshot_url: screenshotUrl })
-                .eq('team_id', teamId);
+            // 3. Update Database (With fallback logic)
+            let updateError;
 
-            if (dbError) {
-                console.warn("DB update failed (column might be missing), but screenshot uploaded:", dbError);
-                // We'll proceed anyway if the screenshot is in storage
+            if (isUUID(regId)) {
+                // Try UUID first
+                const { error } = await supabaseClient
+                    .from('registrations')
+                    .update({ payment_screenshot_url: screenshotUrl })
+                    .eq('id', regId);
+                updateError = error;
+            } else {
+                // Fallback to team_id for legacy
+                const { error } = await supabaseClient
+                    .from('registrations')
+                    .update({ payment_screenshot_url: screenshotUrl })
+                    .eq('team_id', regId);
+                updateError = error;
             }
+
+            if (updateError) {
+                console.warn("DB update failed, but screenshot uploaded:", updateError);
+            }
+
 
             // 4. Show Success
             finalSuccess.style.display = 'flex';

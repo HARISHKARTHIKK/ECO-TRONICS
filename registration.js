@@ -37,47 +37,26 @@ document.addEventListener('DOMContentLoaded', () => {
         window.history.replaceState({}, document.title, window.location.pathname);
     }
 
-    // --- 1. Sequential Team ID Logic ---
-    let currentTeamID = "101";
+    // --- 1. Sequential Team ID Logic (Now handled by Database) ---
+    // We no longer fetch or generate the Team ID on the frontend.
+    // It will be assigned by the database sequence upon successful registration.
 
-    const fetchNextTeamID = async () => {
-        try {
-            const { data, error } = await supabaseClient
-                .from('registrations')
-                .select('team_id')
-                .order('team_id', { ascending: false }) // Use numeric order if possible
-                .limit(1);
-
-            if (error) {
-                console.warn("Sequence fetch error (Table might be empty or missing column):", error.message);
-                currentTeamID = "101";
-            } else if (data && data.length > 0) {
-                const lastId = parseInt(data[0].team_id);
-                currentTeamID = (!isNaN(lastId) ? (lastId + 1) : 101).toString();
-            } else {
-                currentTeamID = "101";
-            }
-        } catch (err) {
-            console.warn("Could not fetch last ID, defaulting to 101:", err);
-            currentTeamID = "101";
-        }
-        updateTeamIDDisplay(currentTeamID);
-    };
-
-    // Function to update the UI with the Team ID
+    // Function to update the UI with the Team ID (Now shows pending/assigned status)
     const updateTeamIDDisplay = (id) => {
         const display = document.getElementById('teamIdDisplay');
         const hiddenInput = document.getElementById('teamIdHidden');
         if (display) {
-            display.textContent = id;
+            display.textContent = id || "ASSIGNING...";
+            display.style.opacity = id ? "1" : "0.6";
         }
         if (hiddenInput) {
-            hiddenInput.value = id;
+            hiddenInput.value = id || "";
         }
     };
 
-    // Initialize by fetching from database
-    fetchNextTeamID();
+    // Initial state
+    updateTeamIDDisplay(null);
+
 
     // Global closeModal function for the modal button
     window.closeModal = () => {
@@ -125,14 +104,15 @@ document.addEventListener('DOMContentLoaded', () => {
             const fileExt = pptFile.name.split('.').pop();
             // Sanitize team name for the storage path
             const safeTeamName = teamName.replace(/[^a-z0-9]/gi, '_');
-            const fileName = `${safeTeamName}_${currentTeamID}.${fileExt}`;
+            // Use timestamp for uniqueness since team_id isn't available yet
+            const fileName = `${safeTeamName}_${Date.now()}.${fileExt}`;
             const filePath = `submissions/${fileName}`;
 
             const { data: uploadData, error: uploadError } = await supabaseClient.storage
                 .from('ppt-submissions')
                 .upload(filePath, pptFile, {
                     cacheControl: '3600',
-                    upsert: true // Enable overwrite to prevent "resource already exists" error
+                    upsert: true
                 });
 
             if (uploadError) throw new Error(`STORAGE_FAILURE: ${uploadError.message}`);
@@ -144,9 +124,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
             const pptUrl = urlData.publicUrl;
 
-            // --- 4. Prepare Team Data ---
+            // --- 4. Prepare Team Data (Omit team_id to let DB generate it) ---
             const registrationData = {
-                team_id: currentTeamID,
                 team_name: formData.get('teamName'),
                 track: formData.get('track'),
                 leader_name: formData.get('leaderName'),
@@ -175,44 +154,53 @@ document.addEventListener('DOMContentLoaded', () => {
                 created_at: new Date()
             };
 
-            // --- 5. Immediate Database Insertion (UPSERT) ---
-            // Ensuring details are in backend BEFORE redirecting to payment.
-            // Using upsert to allow "re-submissions" to update existing records.
+            // --- 5. Immediate Database Insertion ---
             btnText.innerHTML = '<span class="loader-spinner"></span>SYNCHRONIZING_DATABASE...';
-            const { error: dbError } = await supabaseClient
+            const { data: insertedData, error: dbError } = await supabaseClient
                 .from('registrations')
-                .upsert(registrationData, { onConflict: 'team_id' });
+                .insert([registrationData])
+                .select('id, team_id')
+                .single();
 
             if (dbError) {
                 console.error("Database error during submission:", dbError);
                 throw new Error(`DATABASE_FAILURE: ${dbError.message}`);
             }
 
-            // Show success message as requested
-            showMessage("Registration saved successfully", "success");
+            const registrationUUID = insertedData.id;
+            const registrationTeamID = insertedData.team_id;
 
-            // Save to sessionStorage (valid during this browser session) as a backup
-            sessionStorage.setItem(`reg_data_${currentTeamID}`, JSON.stringify(registrationData));
+            // Update UI with the newly assigned Team ID
+            updateTeamIDDisplay(registrationTeamID);
 
-            // --- 5. Payment Redirection (Method 2: Direct URL Redirect) ---
-            // We switch to Method 2 because Method 1 (Fetch) is being blocked by CORS 
-            // on localhost/different origins. Method 2 is CORS-proof as it uses a browser redirect.
+            // Show success message
+            showMessage(`Registration saved! Team ID: ${registrationTeamID}`, "success");
+
+            // Save UUID and data to sessionStorage for later update operations
+            sessionStorage.setItem('current_reg_uuid', registrationUUID);
+            sessionStorage.setItem('current_reg_team_id', registrationTeamID);
+            sessionStorage.setItem(`reg_data_${registrationUUID}`, JSON.stringify({ ...registrationData, id: registrationUUID, team_id: registrationTeamID }));
+            // Also keep legacy storage for backward compatibility during this transition
+            sessionStorage.setItem(`reg_data_${registrationTeamID}`, JSON.stringify({ ...registrationData, id: registrationUUID, team_id: registrationTeamID }));
+
+            // --- 5. Payment Redirection ---
             btnText.innerHTML = '<span class="loader-spinner"></span>REDIRECTING_TO_PAYMENT...';
 
             const baseUrl = 'https://texus.io/ecotronics-payment';
 
             const params = new URLSearchParams({
-                orderId: `ECO-2026-${currentTeamID}`,
+                orderId: `ECO-2026-${registrationTeamID}`,
                 amount: "300",
                 teamName: registrationData.team_name,
                 email: registrationData.leader_email,
                 phone: registrationData.leader_phone,
-                registrationId: currentTeamID,
+                registrationId: registrationUUID, // Using UUID for the update operation later
                 trackType: registrationData.track,
-                successUrl: `${window.location.origin}${window.location.pathname.replace('registration.html', 'confirmation.html')}?payment=success&id=${currentTeamID}`,
+                successUrl: `${window.location.origin}${window.location.pathname.replace('registration.html', 'confirmation.html')}?payment=success&id=${registrationUUID}`,
                 failureUrl: `${window.location.origin}${window.location.pathname}?payment=failure`,
                 cancelUrl: `${window.location.origin}${window.location.pathname}?payment=cancel`
             });
+
 
             // Redirect after a short delay for smooth transition
             setTimeout(() => {
