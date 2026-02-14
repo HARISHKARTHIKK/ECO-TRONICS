@@ -114,7 +114,7 @@ function renderTable() {
     tableBody.innerHTML = '';
 
     if (pageData.length === 0) {
-        tableBody.innerHTML = '<tr><td colspan="9" style="text-align: center; opacity: 0.5; padding: 40px;">No registrations found for this sequence.</td></tr>';
+        tableBody.innerHTML = '<tr><td colspan="8" style="text-align: center; opacity: 0.5; padding: 40px;">No registrations found for this sequence.</td></tr>';
     }
 
     pageData.forEach(reg => {
@@ -132,9 +132,6 @@ function renderTable() {
             <td style="font-size: 0.8rem; opacity: 0.7;">${reg.leader_email}</td>
             <td>
                 ${reg.ppt_url ? `<a href="${reg.ppt_url}" target="_blank" class="btn-link">VIEW_BLUEPRINT</a>` : '<span style="opacity: 0.3;">N/A</span>'}
-            </td>
-            <td>
-                ${reg.payment_screenshot_url ? `<a href="${reg.payment_screenshot_url}" target="_blank" class="btn-link">CHECK_FUNDS</a>` : '<span style="opacity: 0.3; color: #ffaa00;">PENDING</span>'}
             </td>
             <td style="font-size: 0.75rem; opacity: 0.6;">${date}</td>
         `;
