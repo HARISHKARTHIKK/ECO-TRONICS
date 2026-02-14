@@ -7,7 +7,6 @@ const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
 document.addEventListener('DOMContentLoaded', () => {
     const urlParams = new URLSearchParams(window.location.search);
-    const isUUID = (str) => /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(str);
     const regId = urlParams.get('id');
 
     if (!regId) {
@@ -15,39 +14,31 @@ document.addEventListener('DOMContentLoaded', () => {
         return;
     }
 
-    // Set display values. If it's a UUID, we might want to also fetch the team_id for display.
-    teamIdDisplay.textContent = isUUID(regId) ? "VERIFYING..." : regId;
+    // Set display values. We fetch the actual team_id in syncTeamData.
+    teamIdDisplay.textContent = "VERIFYING...";
     sessionIdDisplay.textContent = `TXN-${Math.random().toString(36).substr(2, 9).toUpperCase()}`;
-    confirmedId.textContent = isUUID(regId) ? "RESERVED" : regId;
+    confirmedId.textContent = "RESERVED";
 
     // --- Automatic Data Sync ---
     const syncTeamData = async () => {
         try {
             const savedData = JSON.parse(sessionStorage.getItem(`reg_data_${regId}`));
             if (savedData) {
-                let query = supabaseClient.from('registrations').upsert([savedData]);
-
-                // If we have a UUID, ensure we are targeting by it
-                if (isUUID(regId)) {
-                    console.log("Syncing via UUID...");
+                if (savedData.team_id) {
+                    teamIdDisplay.textContent = savedData.team_id;
+                    confirmedId.textContent = savedData.team_id;
                 }
-
-                const { data, error: syncError } = await query.select('team_id').single();
-
-                if (syncError) {
-                    console.warn("Background Sync Warning:", syncError.message);
-                } else if (data && data.team_id) {
-                    teamIdDisplay.textContent = data.team_id;
-                    confirmedId.textContent = data.team_id;
-                }
-            } else if (isUUID(regId)) {
-                // If no saved data, at least fetch the team_id for display
-                const { data } = await supabaseClient
+            } else {
+                // If no saved data, fetch the team_id for display
+                const { data, error } = await supabaseClient
                     .from('registrations')
                     .select('team_id')
                     .eq('id', regId)
                     .single();
-                if (data) {
+
+                if (error) {
+                    console.warn("Could not fetch team_id:", error.message);
+                } else if (data) {
                     teamIdDisplay.textContent = data.team_id;
                     confirmedId.textContent = data.team_id;
                 }
@@ -121,37 +112,25 @@ document.addEventListener('DOMContentLoaded', () => {
 
             const screenshotUrl = urlData.publicUrl;
 
-            // 3. Update Database (UUID vs Legacy Team ID update logic)
-            const isUuid = regId.includes('-');
+            // 3. Update Database (Targeting UUID only for stability)
             const { data: updatedRows, error: updateError } = await supabaseClient
                 .from('registrations')
                 .update({
-                    payment_screenshot_url: screenshotUrl,
-                    payment_status: 'Completed'
-                })
-                .eq(isUuid ? 'id' : 'team_id', regId)
-                .select();
-
-            // Added as per user request to handle 'paid' status and timestamp
-            await supabaseClient
-                .from("registrations")
-                .update({
-                    payment_status: "paid",
+                    payment_status: 'paid',
                     payment_screenshot: screenshotUrl,
                     payment_updated_at: new Date()
                 })
-                .or(`id.eq.${regId},team_id.eq.${regId}`);
-
-            if (!updateError) {
-                if (!updatedRows || updatedRows.length === 0) {
-                    console.warn("Update Warning: Zero rows affected. No matching record found for ID:", regId);
-                } else if (updatedRows.length > 1) {
-                    console.warn(`Update Warning: Multiple rows (${updatedRows.length}) affected. Expected exactly one.`);
-                }
-            }
+                .eq('id', regId)
+                .select();
 
             if (updateError) {
-                console.warn("DB update failed, but screenshot uploaded:", updateError);
+                console.error("Database update failed:", updateError);
+                throw new Error("Failed to update payment status. Please contact support.");
+            }
+
+            if (!updatedRows || updatedRows.length === 0) {
+                console.warn("Update Warning: No record found for ID:", regId);
+                throw new Error("No matching registration found. Please ensure you used the correct link.");
             }
 
 

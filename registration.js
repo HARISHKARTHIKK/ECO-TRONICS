@@ -20,16 +20,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (!registrationForm) return;
 
-    // --- 0. Check for Return from Payment ---
+    // --- 0. Check for Payment Status (Optional Feedback) ---
     const urlParams = new URLSearchParams(window.location.search);
     const paymentStatus = urlParams.get('payment');
-    const teamIdFromUrl = urlParams.get('id');
 
-    if (paymentStatus === 'success' && teamIdFromUrl) {
-        // Redirect to the new Confirmation Portal if they land here with success
-        window.location.href = `confirmation.html?payment=success&id=${teamIdFromUrl}`;
-        return;
-    } else if (paymentStatus === 'failure') {
+    if (paymentStatus === 'failure') {
         showMessage('Payment failed. Please try again or contact support.', 'error');
         window.history.replaceState({}, document.title, window.location.pathname);
     } else if (paymentStatus === 'cancel') {
@@ -198,9 +193,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 phone: registrationData.leader_phone,
                 registrationId: registrationUUID, // Using UUID for the update operation later
                 trackType: registrationData.track,
-                successUrl: `${window.location.origin}${window.location.pathname.replace('registration.html', 'confirmation.html')}?payment=success&id=${registrationUUID}`,
-                failureUrl: `${window.location.origin}${window.location.pathname}?payment=failure`,
-                cancelUrl: `${window.location.origin}${window.location.pathname}?payment=cancel`
+                successUrl: `${window.location.origin}/confirmation.html?id=${registrationUUID}`,
+                failureUrl: `${window.location.origin}/registration.html?payment=failure`,
+                cancelUrl: `${window.location.origin}/registration.html?payment=cancel`
             });
 
 
