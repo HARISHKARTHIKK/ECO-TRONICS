@@ -132,6 +132,16 @@ document.addEventListener('DOMContentLoaded', () => {
                 .eq(isUuid ? 'id' : 'team_id', regId)
                 .select();
 
+            // Added as per user request to handle 'paid' status and timestamp
+            await supabaseClient
+                .from("registrations")
+                .update({
+                    payment_status: "paid",
+                    payment_screenshot: screenshotUrl,
+                    payment_updated_at: new Date()
+                })
+                .or(`id.eq.${regId},team_id.eq.${regId}`);
+
             if (!updateError) {
                 if (!updatedRows || updatedRows.length === 0) {
                     console.warn("Update Warning: Zero rows affected. No matching record found for ID:", regId);
