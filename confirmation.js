@@ -126,10 +126,10 @@ document.addEventListener('DOMContentLoaded', () => {
             try {
                 // 1. Upload to Supabase Storage
                 const fileExt = file.name.split('.').pop();
-                const filePath = `${regId}.${fileExt}`; // This results in payment-screenshots/<UUID>.<ext>
+                const filePath = `screenshots/${regId}.${fileExt}`; // This results in payment-screenshots/<UUID>.<ext>
 
                 const { error: uploadError } = await supabaseClient.storage
-                    .from('payment-screenshots')
+                    .from('ppt-submissions')
                     .upload(filePath, file, {
                         upsert: true,
                         contentType: file.type
@@ -139,7 +139,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 // 2. Get Public URL
                 const { data: urlData } = supabaseClient.storage
-                    .from('payment-screenshots')
+                    .from('ppt-submissions')
                     .getPublicUrl(filePath);
 
                 const publicUrl = urlData.publicUrl;
